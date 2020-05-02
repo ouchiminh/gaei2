@@ -11,7 +11,6 @@ namespace gaei.navi
             this.scanRadius = scanRadius;
         }
 
-        // Sensorがスキャンできる半径
         public enum scanResult
         {
             somethingFound, nothingFound, unobservable
@@ -29,6 +28,7 @@ namespace gaei.navi
         public ScanEvent onLostObstacle;
         // 障害物が移動したり、新たに観測できるようになったときに発行される
         public ScanEvent onCaptureObstacle;
+        // Sensorがスキャンできる半径
         public float scanRadius;
         private GameObject observatory_;
 
