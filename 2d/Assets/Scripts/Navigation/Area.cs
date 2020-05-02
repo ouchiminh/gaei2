@@ -10,7 +10,7 @@ namespace gaei.navi
     {
         public Area(Vector3Int pos) { representativePoint = pos; }
         // 小空間の一辺の長さ
-        public static readonly int size = 1;
+        public const int size = 1;
         // 小空間の代表点(小空間の中で最も原点に近い点
         public readonly Vector3Int representativePoint;
 
