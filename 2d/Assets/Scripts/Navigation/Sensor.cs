@@ -1,10 +1,17 @@
 ﻿
 using System;
+using UnityEngine;
 
 namespace gaei.navi
 {
     public class Sensor
     {
+        Sensor(GameObject observatory, float scanRadius) {
+            observatory_ = observatory;
+            this.scanRadius = scanRadius;
+        }
+
+        // Sensorがスキャンできる半径
         public enum scanResult
         {
             somethingFound, nothingFound, unobservable
@@ -22,6 +29,8 @@ namespace gaei.navi
         public ScanEvent onLostObstacle;
         // 障害物が移動したり、新たに観測できるようになったときに発行される
         public ScanEvent onCaptureObstacle;
+        public float scanRadius;
+        private GameObject observatory_;
 
         public void scan() { throw new NotImplementedException(); }
 
@@ -31,7 +40,6 @@ namespace gaei.navi
         /// <param name="direction">方向</param>
         /// <param name="position">障害物があればその位置。なければ値は保証されない。</param>
         /// <param name="velocity">障害物があればその移動ベクトル。なければ値は保証されない。</param>
-        /// <exception cref="NullReferenceException">velocityかpositionにnullが指定されていて、かつ 障害物が見つかった場合</exception>
         public scanResult lookd(UnityEngine.Vector3 direction, ref Area position, ref UnityEngine.Vector3 velocity) { throw new NotImplementedException(); }
         /// <summary>
         /// 指定された小空間をスキャンし、障害物の有無を確かめる。
