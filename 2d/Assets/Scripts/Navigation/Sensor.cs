@@ -11,16 +11,16 @@ namespace gaei.navi
         }
 
         /// <summary>
-        /// 障害物を観測した際にトリガーされるイベントのハンドラの型
+        /// 障害物を観測した際に発行されるイベントのハンドラの型
         /// </summary>
         /// <param name="position">観測した障害物が存在する小空間</param>
         /// <param name="sensor">イベントの送信者</param>
         /// <param name="velocity">観測した障害物の絶対的な移動ベクトル</param>
         public delegate void ScanEvent(Area position, Sensor sensor, UnityEngine.Vector3 velocity);
 
-        // これまで発見していた障害物を見失った際に発行される
+        // 障害物が観測できなくなったときに発行される
         public ScanEvent onLostObstacle;
-        // 未発見或いは見失っていた障害物を捕捉した際に発行される
+        // 障害物が移動したり、新たに観測できるようになったときに発行される
         public ScanEvent onCaptureObstacle;
 
         public void scan() { throw new NotImplementedException(); }
