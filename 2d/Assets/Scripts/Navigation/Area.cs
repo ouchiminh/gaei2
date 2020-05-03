@@ -9,10 +9,17 @@ namespace gaei.navi
     public struct Area
     {
         public Area(Vector3Int pos) { representativePoint = pos; }
+        public Area(Vector3 pos)
+        {
+            representativePoint = default(Vector3Int);
+            representativePoint.x = (int)System.Math.Floor(pos.x);
+            representativePoint.y = (int)System.Math.Floor(pos.y);
+            representativePoint.z = (int)System.Math.Floor(pos.z);
+        }
         // 小空間の一辺の長さ
         public const int size = 1;
-        // 小空間の代表点(小空間の中で最も原点に近い点
-        public readonly Vector3Int representativePoint;
+        // 小空間の代表点(小空間の中で最も座標が小さい点
+        public Vector3Int representativePoint;
 
         // 小空間の各頂点
         public Vector3Int[] vertexesInt { get {
