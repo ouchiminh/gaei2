@@ -22,12 +22,12 @@ namespace gaei.navi
         /// <param name="sensor">イベントの送信者</param>
         /// <param name="position">観測した障害物が存在する小空間</param>
         /// <param name="velocity">観測した障害物の絶対的な移動ベクトル</param>
-        public delegate void ScanEvent(in Sensor sensor, Area position, Vector3 velocity);
+        public delegate void ScanEventHandler(in Sensor sensor, Area position, Vector3 velocity);
 
         // 障害物が観測できなくなったときに発行される
-        public ScanEvent onLostObstacle;
+        public event ScanEventHandler onLostObstacle;
         // 障害物が移動したり、新たに観測できるようになったときに発行される
-        public ScanEvent onCaptureObstacle;
+        public event ScanEventHandler onCaptureObstacle;
         // Sensorがスキャンできる半径
         public readonly int scanRadius;
         private GameObject observatory_;
