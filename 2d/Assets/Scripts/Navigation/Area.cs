@@ -16,10 +16,15 @@ namespace gaei.navi
             representativePoint.y = (int)System.Math.Floor(pos.y);
             representativePoint.z = (int)System.Math.Floor(pos.z);
         }
+        public Area(int x, int y, int z)
+        {
+            representativePoint = new Vector3Int(x, y, z);
+        }
         // 小空間の一辺の長さ
         public const int size = 1;
         // 小空間の代表点(小空間の中で最も座標が小さい点
         public Vector3Int representativePoint;
+        public Vector3 center { get => representativePoint + new Vector3((float)size / 2, (float)size / 2, (float)size / 2); }
 
         // 小空間の各頂点
         public Vector3Int[] vertexesInt { get {
