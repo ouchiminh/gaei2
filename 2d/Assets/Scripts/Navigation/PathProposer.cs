@@ -1,13 +1,18 @@
 ﻿
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace gaei.navi
 {
     public struct Vector3Pos {
         public float x, y, z;
+        public static implicit operator Vector3(Vector3Pos v) => new Vector3(v.x, v.y, v.z);
+        public Vector3Pos(Vector3 v) { x = v.x; y = v.y; z = v.z; }
     }
     public struct Vector3Vel {
         public float x, y, z;
+        public static implicit operator Vector3(Vector3Vel v) => new Vector3(v.x, v.y, v.z);
+        public Vector3Vel(Vector3 v) { x = v.x; y = v.y; z = v.z; }
     }
 
     public abstract class PathProposer
@@ -32,8 +37,8 @@ namespace gaei.navi
         // 方向を指定して経路を提案する
         public delegate void PathProposalHandlerVel(Vector3Vel v);
 
-        public event PathProposalHandlerPos pphp;
-        public event PathProposalHandlerVel pphv;
+        public PathProposalHandlerPos pphp;
+        public PathProposalHandlerVel pphv;
 
     }
 }
