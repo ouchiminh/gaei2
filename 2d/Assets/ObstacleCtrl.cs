@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class obstacle_cntr : MonoBehaviour
+public class ObstacleCtrl : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
