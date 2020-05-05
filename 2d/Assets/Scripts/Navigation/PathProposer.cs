@@ -25,6 +25,7 @@ namespace gaei.navi
         }
         public abstract void onCaptureObstacle(in Sensor s, Area pos, Vector3 velocity);
         public abstract void onLostObstacle(in Sensor s, Area pos, Vector3 velocity);
+        public abstract void onDestUpdate(Vector3Pos v);
 
         // 位置を指定して経路を提案する
         public delegate void PathProposalHandlerPos(Vector3Pos v);
