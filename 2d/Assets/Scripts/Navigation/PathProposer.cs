@@ -55,8 +55,9 @@ namespace gaei.navi
         /// <summary>
         /// 大局的な目的地が変更された場合に呼ばれます。
         /// </summary>
-        /// <param name="v">目的地の場所</param>
-        public abstract void onDestUpdate(Vector3Pos v);
+        /// <param name="currentLocation">現在の位置</param>
+        /// <param name="goal">目的地の場所</param>
+        public abstract void onDestUpdate(Vector3Pos currentLocation, Vector3Pos goal);
 
         public enum Priority
         {
