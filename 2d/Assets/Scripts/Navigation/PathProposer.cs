@@ -28,9 +28,34 @@ namespace gaei.navi
             s.onCaptureObstacle += onCaptureObstacle;
             s.onLostObstacle += onLostObstacle;
         }
+
+        /// <summary>
+        /// Sensorが障害物を発見したときに呼ばれます。
+        /// </summary>
+        /// <param name="s">Sensorのインスタンス</param>
+        /// <param name="pos">新たに障害物が見つかった場所</param>
+        /// <param name="velocity">見つかった障害物の速度</param>
+        /// <remarks>
+        /// 発見された障害物が新たに発見されたものとは限りません。
+        /// もともと障害物がなかった小空間に障害物が観測された場合に、この関数が呼び出されます。
+        /// </remarks>
         public abstract void onCaptureObstacle(in Sensor s, Area pos, Vector3 velocity);
+        /// <summary>
+        /// Sensorが障害物を見失ったときに呼ばれます。
+        /// </summary>
+        /// <param name="s">Sensorのインスタンス</param>
+        /// <param name="pos">観測できなくなった障害物のあった場所</param>
+        /// <param name="velocity">意味を持ちません</param>
         public abstract void onLostObstacle(in Sensor s, Area pos, Vector3 velocity);
-        public virtual void onArrivalLocalGoal(in Sensor s, Vector3 goal) { }
+        /// <summary>
+        /// pphpで指定された局所的なゴールに到達した場合に呼ばれます。
+        /// </summary>
+        /// <param name="s">センサーのインスタンス</param>
+        public virtual void onArrivalLocalGoal(in Sensor s) { }
+        /// <summary>
+        /// 大局的な目的地が変更された場合に呼ばれます。
+        /// </summary>
+        /// <param name="v">目的地の場所</param>
         public abstract void onDestUpdate(Vector3Pos v);
 
         public enum Priority
