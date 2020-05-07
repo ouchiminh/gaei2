@@ -30,12 +30,18 @@ namespace gaei.navi
         }
         public abstract void onCaptureObstacle(in Sensor s, Area pos, Vector3 velocity);
         public abstract void onLostObstacle(in Sensor s, Area pos, Vector3 velocity);
+        public virtual void onArrivalLocalGoal(in Sensor s, Vector3 goal) { }
         public abstract void onDestUpdate(Vector3Pos v);
 
+        public enum Priority
+        {
+            collisionAvoidance, globalPath,
+        }
+
         // 位置を指定して経路を提案する
-        public delegate void PathProposalHandlerPos(Vector3Pos v);
+        public delegate void PathProposalHandlerPos(Vector3Pos v, Priority p);
         // 方向を指定して経路を提案する
-        public delegate void PathProposalHandlerVel(Vector3Vel v);
+        public delegate void PathProposalHandlerVel(Vector3Vel v, Priority p);
 
         public PathProposalHandlerPos pphp;
         public PathProposalHandlerVel pphv;

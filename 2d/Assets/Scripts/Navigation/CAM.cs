@@ -18,7 +18,7 @@ namespace gaei.navi
                 var r = a.Key.center - s.currentLocation;
                 current +=  r / Vector3.SqrMagnitude(r);
             }
-            pphv(new Vector3Vel(current));
+            pphv(new Vector3Vel(current), PathProposer.Priority.collisionAvoidance);
         }
 
         public override void onLostObstacle(in Sensor s, Area pos, Vector3 velocity)
