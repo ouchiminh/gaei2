@@ -57,7 +57,7 @@ namespace gaei.navi
         /// </summary>
         /// <param name="currentLocation">現在の位置</param>
         /// <param name="goal">目的地の場所</param>
-        public abstract void onDestUpdate(Vector3Pos currentLocation, Vector3Pos goal);
+        public abstract void onDestUpdate(in Sensor s, Vector3Pos goal);
 
         public enum Priority
         {

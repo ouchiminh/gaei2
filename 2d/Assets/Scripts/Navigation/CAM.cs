@@ -23,9 +23,9 @@ namespace gaei.navi
 
         public override void onLostObstacle(in Sensor s, Area pos, Vector3 velocity)
         {}
-        public override void onDestUpdate(Vector3Pos curpos, Vector3Pos goal)
+        public override void onDestUpdate(in Sensor s, Vector3Pos goal)
         {
-            dest_ = curpos;
+            dest_ = goal;
         }
 
         Vector3 dest_;
