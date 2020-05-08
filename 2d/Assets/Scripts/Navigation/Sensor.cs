@@ -11,6 +11,9 @@ public class Sensor : MonoBehaviour
         somethingFound, nothingFound, unobservable
     }
 
+    public Sensor()
+    { envmap_ = new System.Collections.Generic.Dictionary<Area, (ScanResult accessibility, Vector3? velocity)>(); }
+
     private Collider[] buffer_ = new Collider[1];
     private void FixedUpdate()
     {

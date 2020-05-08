@@ -18,14 +18,14 @@ namespace gaei.navi
                 var r = a.Key.center - s.currentLocation;
                 current +=  r / Vector3.SqrMagnitude(r);
             }
-            pphv(new Vector3Vel(current));
+            pphv(new Vector3Vel(current), PathProposer.Priority.collisionAvoidance);
         }
 
         public override void onLostObstacle(in Sensor s, Area pos, Vector3 velocity)
         {}
-        public override void onDestUpdate(Vector3Pos v)
+        public override void onDestUpdate(in Sensor s, Vector3Pos goal)
         {
-            dest_ = v;
+            dest_ = goal;
         }
 
         Vector3 dest_;

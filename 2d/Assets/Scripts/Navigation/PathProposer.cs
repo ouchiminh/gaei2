@@ -28,14 +28,46 @@ namespace gaei.navi
             s.onCaptureObstacle += onCaptureObstacle;
             s.onLostObstacle += onLostObstacle;
         }
+
+        /// <summary>
+        /// Sensorが障害物を発見したときに呼ばれます。
+        /// </summary>
+        /// <param name="s">Sensorのインスタンス</param>
+        /// <param name="pos">新たに障害物が見つかった場所</param>
+        /// <param name="velocity">見つかった障害物の速度</param>
+        /// <remarks>
+        /// 発見された障害物が新たに発見されたものとは限りません。
+        /// もともと障害物がなかった小空間に障害物が観測された場合に、この関数が呼び出されます。
+        /// </remarks>
         public abstract void onCaptureObstacle(in Sensor s, Area pos, Vector3 velocity);
+        /// <summary>
+        /// Sensorが障害物を見失ったときに呼ばれます。
+        /// </summary>
+        /// <param name="s">Sensorのインスタンス</param>
+        /// <param name="pos">観測できなくなった障害物のあった場所</param>
+        /// <param name="velocity">意味を持ちません</param>
         public abstract void onLostObstacle(in Sensor s, Area pos, Vector3 velocity);
-        public abstract void onDestUpdate(Vector3Pos v);
+        /// <summary>
+        /// pphpで指定された局所的なゴールに到達した場合に呼ばれます。
+        /// </summary>
+        /// <param name="s">センサーのインスタンス</param>
+        public virtual void onArrivalLocalGoal(in Sensor s) { }
+        /// <summary>
+        /// 大局的な目的地が変更された場合に呼ばれます。
+        /// </summary>
+        /// <param name="currentLocation">現在の位置</param>
+        /// <param name="goal">目的地の場所</param>
+        public abstract void onDestUpdate(in Sensor s, Vector3Pos goal);
+
+        public enum Priority
+        {
+            collisionAvoidance, globalPath,
+        }
 
         // 位置を指定して経路を提案する
-        public delegate void PathProposalHandlerPos(Vector3Pos v);
+        public delegate void PathProposalHandlerPos(Vector3Pos v, Priority p);
         // 方向を指定して経路を提案する
-        public delegate void PathProposalHandlerVel(Vector3Vel v);
+        public delegate void PathProposalHandlerVel(Vector3Vel v, Priority p);
 
         public PathProposalHandlerPos pphp;
         public PathProposalHandlerVel pphv;
