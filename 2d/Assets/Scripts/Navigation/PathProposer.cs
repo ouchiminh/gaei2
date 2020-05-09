@@ -61,16 +61,19 @@ namespace gaei.navi
 
         public enum Priority
         {
-            collisionAvoidance, globalPath,
+            collisionAvoidance, globalPath, neutral
         }
 
         // 位置を指定して経路を提案する
-        public delegate void PathProposalHandlerPos(Vector3Pos v, Priority p);
+        public delegate int PathProposalHandlerPos(Vector3Pos v, Priority p);
         // 方向を指定して経路を提案する
-        public delegate void PathProposalHandlerVel(Vector3Vel v, Priority p);
+        public delegate int PathProposalHandlerVel(Vector3Vel v, Priority p);
+        // 移動指令をキャンセルする
+        public delegate void ComCanceler(int commandID);
 
         public PathProposalHandlerPos pphp;
         public PathProposalHandlerVel pphv;
+        public ComCanceler cancelCom;
 
     }
 }
