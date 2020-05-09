@@ -68,6 +68,7 @@ public class Navigator : MonoBehaviour
         pathPriority_ = int.MaxValue;
         isPosDesignated_ = false;
         vector_ = new Vector3(0, 0, 0);
+        pathProposers_.ForEach(x => x.awake(GetComponent<Sensor>()));
     }
 
     private List<PathProposer> pathProposers_;

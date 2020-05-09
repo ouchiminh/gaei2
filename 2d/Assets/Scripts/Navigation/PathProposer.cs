@@ -59,6 +59,8 @@ namespace gaei.navi
         /// <param name="goal">目的地の場所</param>
         public abstract void onDestUpdate(in Sensor s, Vector3Pos goal);
 
+        public abstract void awake(in Sensor s);
+
         public enum Priority
         {
             collisionAvoidance, globalPath, neutral
