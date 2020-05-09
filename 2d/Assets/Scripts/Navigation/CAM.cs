@@ -20,7 +20,11 @@ namespace gaei.navi
                 current +=  r / Vector3.SqrMagnitude(r);
                 shouldKeepAvoiding |= a.Value.velocity == null || a.Value.velocity.Value.magnitude == 0 ? false : true;
             }
-            if (!shouldKeepAvoiding) cancelCom(lastComId_);
+            if (!shouldKeepAvoiding)
+            {
+                cancelCom(lastComId_);
+                return;
+            }
             lastComId_ = pphv(new Vector3Vel(current), Priority.collisionAvoidance);
         }
 
