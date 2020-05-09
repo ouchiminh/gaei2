@@ -31,6 +31,9 @@ namespace gaei.navi
             dest_ = goal;
         }
 
+        public override void awake(in Sensor s)
+        {}
+
         Vector3 dest_;
         int lastComId_;
     }
