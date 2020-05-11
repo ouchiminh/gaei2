@@ -28,7 +28,7 @@ public class Sensor : MonoBehaviour
                     var area = new Area(currentLocation + new Vector3(x, y, z));
                     int cnt = Physics.OverlapBoxNonAlloc(area.center, new Vector3(.5f, .5f, .5f), buffer_);
                     // TODO:障害物速度ベクトルへの対応
-                    if (cnt > 0 && !buffer_.Contains(GetComponent<Collider>()) && envmap_[area].accessibility != ScanResult.somethingFound)
+                    if (cnt > 0 && (buffer_.Contains(GetComponent<Collider>()) ? cnt == 2 : true) && envmap_[area].accessibility != ScanResult.somethingFound)
                     {
                         envmap_.Add(area, (ScanResult.somethingFound, null));
                         onCaptureObstacle(this, area, new Vector3(0, 0, 0));
