@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using gaei.navi;
 using System.Threading;
+using System.Linq;
 
 public class Sensor : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class Sensor : MonoBehaviour
     public Sensor()
     { envmap_ = new System.Collections.Generic.Dictionary<Area, (ScanResult accessibility, Vector3? velocity)>(); }
 
-    private Collider[] buffer_ = new Collider[1];
+    private Collider[] buffer_ = new Collider[2];
     private void FixedUpdate()
     {
         scan();
@@ -27,7 +28,7 @@ public class Sensor : MonoBehaviour
                     var area = new Area(currentLocation + new Vector3(x, y, z));
                     int cnt = Physics.OverlapBoxNonAlloc(area.center, new Vector3(.5f, .5f, .5f), buffer_);
                     // TODO:障害物速度ベクトルへの対応
-                    if (cnt > 0 && envmap_[area].accessibility != ScanResult.somethingFound)
+                    if (cnt > 0 && !buffer_.Contains(GetComponent<Collider>()) && envmap_[area].accessibility != ScanResult.somethingFound)
                     {
                         envmap_.Add(area, (ScanResult.somethingFound, null));
                         onCaptureObstacle(this, area, new Vector3(0, 0, 0));
