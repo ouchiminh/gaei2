@@ -23,7 +23,7 @@ namespace gaei.navi {
                     g2 = x;
                 }
             }
-            // G2までの経路を計算し、localgoals_に経由する小空間を全て追加する
+            // TODO:パスの任意の2頂点間にrayを飛ばして、そのrayが何にもぶつからなければ間の頂点を消す。
             return areaDijkstra(here, envmap, g2);
 
         }
