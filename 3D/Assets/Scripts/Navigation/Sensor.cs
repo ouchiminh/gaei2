@@ -7,6 +7,7 @@ using System.Threading;
 namespace gaei.navi
 {
     using EnvMap = System.Collections.Generic.Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
+    using ReadOnlyEnvMap = System.Collections.ObjectModel.ReadOnlyDictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
     public static class Sensor
     {
         public enum ScanResult
@@ -60,7 +61,7 @@ namespace gaei.navi
         // Sensorと紐づくオブジェクトの現在地
         public static Vector3 referencePoint { get; set; }
         // Sensorが構築する環境マップ
-        public static System.Collections.ObjectModel.ReadOnlyDictionary<Area, (ScanResult accessibility, Vector3? velocity)> envmap { get; }
+        public static ReadOnlyEnvMap envmap { get; }
     }
 }
 

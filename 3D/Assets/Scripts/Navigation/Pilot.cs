@@ -6,6 +6,7 @@ using PriorityQueue;
 
 namespace gaei.navi {
     using EnvMap = System.Collections.Generic.Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
+    using ReadOnlyEnvMap = System.Collections.ObjectModel.ReadOnlyDictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
 
     public class Pilot : GlobalPathProposer
     {
@@ -18,7 +19,8 @@ namespace gaei.navi {
         /// <param name="envmap">環境マップ</param>
         /// <returns>経路</returns>
         /// <exception cref="System.InvalidOperationException">envmapが空の場合</exception>
-        public IEnumerable<Area> getPath(Vector3 dest, Vector3 here, in EnvMap envmap)
+        /// <exception cref="System.NullReferenceException">envmapにdestを含む小空間が含まれていない場合</exception>
+        public IEnumerable<Area> getPath(Vector3 dest, Vector3 here, in ReadOnlyEnvMap envmap)
         {
             var candidate = (from x in envmap select x.Key).ToList();
             double sqrd = double.MaxValue;
@@ -38,7 +40,7 @@ namespace gaei.navi {
 
         }
 
-        private LinkedList<Area> areaDijkstra(Vector3 here, in EnvMap envmap, Area f)
+        private LinkedList<Area> areaDijkstra(Vector3 here, in ReadOnlyEnvMap envmap, Area f)
         {
             Dictionary<Area, (float distance, Area? prev)> g = new Dictionary<Area, (float distance, Area? prev)>();
             PriorityQueue<(Area a, float d)> q = new PriorityQueue<(Area a, float d)>((x, y)=>x.d.CompareTo(y.d));

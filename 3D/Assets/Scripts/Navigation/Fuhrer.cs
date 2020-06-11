@@ -18,7 +18,6 @@ namespace gaei.navi
         }
         public void updateDroneState(DroneCtrl drone)
         {
-            assignDrone(drone);
         }
         public void deactivateDemandPoint(Area area)
         {
