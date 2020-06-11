@@ -19,20 +19,21 @@ namespace gaei.navi
         private static Collider[] buffer_ = new Collider[3];
         public static void scan()
         {
-            for (int x = -scanRadius.x; x <= scanRadius.x; ++x)
-                for (int y = -scanRadius.y; y <= scanRadius.y; ++y)
-                    for (int z = -scanRadius.z; z <= scanRadius.z; ++z)
+            for (int x = scanOffset.x; x <= scanSize.x; ++x)
+                for (int y = scanOffset.y; y <= scanSize.y; ++y)
+                    for (int z = scanOffset.z; z <= scanSize.z; ++z)
                     {
                         var area = new Area(referencePoint + new Vector3(x, y, z));
                         int cnt = Physics.OverlapBoxNonAlloc(area.center, new Vector3(.5f, .5f, .5f), buffer_);
-                        Vector3 velocity = default(Vector3);
+                        Vector3 velocity = default;
                         var res = looka(area, ref velocity);
                         envmap_.Add(area, (res, velocity));
                     }
         }
 
         // Sensorがスキャンできる半径
-        public readonly static Vector3Int scanRadius;
+        public static Vector3Int scanSize;
+        public static Vector3Int scanOffset;
         private static EnvMap envmap_;
 
         /// <summary>
