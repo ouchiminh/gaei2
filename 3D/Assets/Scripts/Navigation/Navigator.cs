@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace gaei.navi {
@@ -15,10 +16,12 @@ namespace gaei.navi {
             localPathProposer_ = new CAM();
         }
         public Vector3 getNextCourse(in EnvMap envmap) {
-
+            if (path_.Count == 0) return new Vector3(0, 0, 0);
+            if (path_.First().CompareTo(new Area(gameObject.transform.position)) == 0) path_.RemoveAt(0);
+            return localPathProposer_.getCourse(path_.First().center, gameObject.transform.position, envmap);
         }
-        public void setDestination(Area dest) {
-            path_ = globalPathProposer_.getPath()
+        public void setDestination(Area dest, in EnvMap envmap) {
+            path_ = globalPathProposer_.getPath(dest.center, gameObject.transform.position, envmap).ToList();
         }
     }
 }
