@@ -5,6 +5,7 @@ using UnityEngine;
 using PriorityQueue;
 
 namespace gaei.navi {
+    using EnvMap = System.Collections.Generic.Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
 
     public class Pilot : GlobalPathProposer
     {
@@ -17,7 +18,7 @@ namespace gaei.navi {
         /// <param name="envmap">環境マップ</param>
         /// <returns>経路</returns>
         /// <exception cref="System.InvalidOperationException">envmapが空の場合</exception>
-        public IEnumerable<Area> getPath(Vector3 dest, Vector3 here, in Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)> envmap)
+        public IEnumerable<Area> getPath(Vector3 dest, Vector3 here, in EnvMap envmap)
         {
             var candidate = (from x in envmap select x.Key).ToList();
             double sqrd = double.MaxValue;
@@ -37,7 +38,7 @@ namespace gaei.navi {
 
         }
 
-        private LinkedList<Area> areaDijkstra(Vector3 here, in Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)> envmap, Area f)
+        private LinkedList<Area> areaDijkstra(Vector3 here, in EnvMap envmap, Area f)
         {
             Dictionary<Area, (float distance, Area? prev)> g = new Dictionary<Area, (float distance, Area? prev)>();
             PriorityQueue<(Area a, float d)> q = new PriorityQueue<(Area a, float d)>((x, y)=>x.d.CompareTo(y.d));
@@ -83,16 +84,6 @@ namespace gaei.navi {
                 yield return new Area(pos);
             }
             yield break;
-        }
-
-        static private float ManhattanDis(Vector3 a,Vector3 b)
-        {
-            return System.Math.Abs(a.x - b.x) + System.Math.Abs(a.y - b.y) + System.Math.Abs(a.z - b.z);
-        }
-
-        enum AreaState
-        {
-            unexplored, explored
         }
 
     }

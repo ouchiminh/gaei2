@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace gaei.navi
 {
+    using EnvMap = System.Collections.Generic.Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
     public class CAM : LocalPathProposer
     {
         /// <summary>
@@ -14,7 +15,7 @@ namespace gaei.navi
         /// <param name="here">経路探索の始点</param>
         /// <param name="envmap">環境マップ</param>
         /// <returns>動くべき方向</returns>
-        public Vector3 getCourse(Vector3 dest, Vector3 here, in Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)> envmap)
+        public Vector3 getCourse(Vector3 dest, Vector3 here, in EnvMap envmap)
         {
             // TODO:移動障害物と処理を分離して軽量化
             Vector3 current = default(Vector3);

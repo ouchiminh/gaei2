@@ -6,15 +6,15 @@ using System.Threading;
 
 namespace gaei.navi
 {
+    using EnvMap = System.Collections.Generic.Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
     public static class Sensor
     {
         public enum ScanResult
         {
             somethingFound, nothingFound, unobservable
         }
-
         static Sensor()
-        { envmap_ = new System.Collections.Generic.Dictionary<Area, (ScanResult accessibility, Vector3? velocity)>(); }
+        { envmap_ = new EnvMap(); }
 
         private static Collider[] buffer_ = new Collider[3];
         public static void scan()
@@ -33,7 +33,7 @@ namespace gaei.navi
 
         // Sensorがスキャンできる半径
         public readonly static Vector3Int scanRadius;
-        private static System.Collections.Generic.Dictionary<Area, (ScanResult accessibility, Vector3? velocity)> envmap_;
+        private static EnvMap envmap_;
 
         /// <summary>
         /// 指定された方向をスキャンし、障害物の有無を確かめる。
