@@ -20,6 +20,10 @@ namespace gaei.navi
         {
             assignDrone(drone);
         }
+        public void deactivateDemandPoint(Area area)
+        {
+            demandPoints_.Remove(area);
+        }
         public void createDrone() { }
 
         private void assignDrone(DroneCtrl drone = null) {
