@@ -8,6 +8,15 @@ namespace gaei.navi {
 
     public class Pilot : GlobalPathProposer
     {
+        /// <summary>
+        /// hereからdestまでの経路をDijkstra法で検索します。
+        /// 経路の頂点はenvmapに含まれる頂点から検索されます。したがって、destがenvmapに含まれていない場合何が起こるか分かりません。
+        /// </summary>
+        /// <param name="dest">経路探索の終点</param>
+        /// <param name="here">経路探索の始点</param>
+        /// <param name="envmap">環境マップ</param>
+        /// <returns>経路</returns>
+        /// <exception cref="System.InvalidOperationException">envmapが空の場合</exception>
         public IEnumerable<Area> getPath(Vector3 dest, Vector3 here, in Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)> envmap)
         {
             var candidate = (from x in envmap select x.Key).ToList();
