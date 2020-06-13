@@ -20,9 +20,9 @@ namespace gaei.navi
         private static Collider[] buffer_ = new Collider[3];
         public static void scan()
         {
-            for (int x = scanOffset.x; x <= scanSize.x; ++x)
-                for (int y = scanOffset.y; y <= scanSize.y; ++y)
-                    for (int z = scanOffset.z; z <= scanSize.z; ++z)
+            for (int x = scanOffset.x; x <= scanOffset.x + scanSize.x; ++x)
+                for (int y = scanOffset.y; y <= scanOffset.y + scanSize.y; ++y)
+                    for (int z = scanOffset.z; z <= scanOffset.z + scanSize.z; ++z)
                     {
                         var area = new Area(referencePoint + new Vector3(x, y, z));
                         int cnt = Physics.OverlapBoxNonAlloc(area.center, new Vector3(.5f, .5f, .5f), buffer_);

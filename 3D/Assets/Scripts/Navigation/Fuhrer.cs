@@ -23,7 +23,8 @@ namespace gaei.navi
         {
             demandPoints_.Remove(area);
         }
-        public void createDrone() { }
+        public void createDrone() {
+        }
 
         private void assignDrone(DroneCtrl drone = null) {
             // TODO:droneがnullならば暇なドローンを探して需要点を割り当て
