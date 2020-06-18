@@ -24,17 +24,9 @@ namespace gaei.navi {
         {
             var candidate = (from x in envmap select x.Key).ToList();
             double sqrd = double.MaxValue;
-            Area g2 = default(Area);
+            Area g2 = new Area(dest);
             if (candidate.Count == 0) throw new System.InvalidOperationException("no goal");
-            foreach(var x in candidate)
-            {
-                var buf = (x.center - dest).sqrMagnitude;
-                if (buf < sqrd)
-                {
-                    sqrd = buf;
-                    g2 = x;
-                }
-            }
+
             // TODO:パスの任意の2頂点間にrayを飛ばして、そのrayが何にもぶつからなければ間の頂点を消す。
             return areaDijkstra(here, envmap, g2, candidate);
 
