@@ -61,7 +61,7 @@ namespace gaei.navi
         // Sensorと紐づくオブジェクトの現在地
         public static Vector3 referencePoint { get; set; }
         // Sensorが構築する環境マップ
-        public static ReadOnlyEnvMap envmap { get; }
+        public static ReadOnlyEnvMap envmap { get => new ReadOnlyEnvMap(envmap_); }
     }
 }
 
