@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
@@ -52,6 +53,12 @@ namespace gaei.navi
                 representativePoint.x.CompareTo(other.representativePoint.x) != 0 ? representativePoint.x.CompareTo(other.representativePoint.x) :
                 representativePoint.y.CompareTo(other.representativePoint.y) != 0 ? representativePoint.y.CompareTo(other.representativePoint.y) :
                 representativePoint.z.CompareTo(other.representativePoint.z) != 0 ? representativePoint.z.CompareTo(other.representativePoint.z) : 0;
+        }
+        public static int distance(Area a, Area b)
+        {
+            return Math.Abs(a.representativePoint.x - b.representativePoint.x) +
+                Math.Abs(a.representativePoint.y - b.representativePoint.y) +
+                Math.Abs(a.representativePoint.z - b.representativePoint.z);
         }
     }
 }
