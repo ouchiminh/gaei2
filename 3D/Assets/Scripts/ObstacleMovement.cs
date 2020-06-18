@@ -17,7 +17,7 @@ public class ObstacleMovement : MonoBehaviour{
 
     // Update is called once per frame
     void Update(){
-        if(Vector3.Distance(transform.position, destinationController.GetDestination()) < 3f){
+        if(Vector3.Distance(transform.position, destinationController.GetDestination()) < 8f){
             destinationController.CreateDestination();
             navAgent.SetDestination(destinationController.GetDestination());
         }
