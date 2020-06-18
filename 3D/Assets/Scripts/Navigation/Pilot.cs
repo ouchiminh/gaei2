@@ -53,7 +53,7 @@ namespace gaei.navi {
                     if(g.ContainsKey(node) && g[node].distance > d + 1)
                     {
                         g[node] = (d + 1, a);
-                        q.Enqueue((a, d + 1));
+                        q.Enqueue((node, d + 1));
                     }
                 }
             }
