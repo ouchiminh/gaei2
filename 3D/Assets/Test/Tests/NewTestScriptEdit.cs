@@ -42,8 +42,8 @@ namespace Tests
         public void CAM_test()
         {
             var envmap = new System.Collections.Generic.Dictionary<Area, (Sensor.ScanResult accsessibility, Vector3? velocity)>();
-            Vector3 dest = new Vector3(1, 3, 0);
-            Vector3 here = new Vector3(1, 2, 0);
+            Vector3 dest = new Vector3(1.5f, 3, 0.5f);
+            Vector3 here = new Vector3(1.5f, 2, 0.5f);
             for (int i = 0; i < 5; ++i)
             {
                 for (int j = 0; j < 5; ++j)
@@ -56,8 +56,8 @@ namespace Tests
             envmap[new Area(2, 0, 0)] = (Sensor.ScanResult.somethingFound, null);
             var map = new System.Collections.ObjectModel.ReadOnlyDictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>(envmap);
             Vector3 direction = new CAM().getCourse(dest, here, map);
-            Vector3 ans = new Vector3(0,1,0);
-            Assert.AreEqual(ans,direction);
+            Vector3 ans = new Vector3(0,-1,0);
+            Assert.AreEqual(ans,direction.normalized);
         }
     }
 }
