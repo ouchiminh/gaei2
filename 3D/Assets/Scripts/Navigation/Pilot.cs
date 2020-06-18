@@ -36,11 +36,11 @@ namespace gaei.navi {
                 }
             }
             // TODO:パスの任意の2頂点間にrayを飛ばして、そのrayが何にもぶつからなければ間の頂点を消す。
-            return areaDijkstra(here, envmap, g2);
+            return areaDijkstra(here, envmap, g2, candidate);
 
         }
 
-        private LinkedList<Area> areaDijkstra(Vector3 here, in ReadOnlyEnvMap envmap, Area f)
+        private LinkedList<Area> areaDijkstra(Vector3 here, in ReadOnlyEnvMap envmap, Area f, IEnumerable<Area> candidates)
         {
             Dictionary<Area, (float distance, Area? prev)> g = new Dictionary<Area, (float distance, Area? prev)>();
             PriorityQueue<(Area a, float d)> q = new PriorityQueue<(Area a, float d)>((x, y)=>x.d.CompareTo(y.d));
@@ -56,7 +56,7 @@ namespace gaei.navi {
             {
                 (var a, var d) = q.Dequeue();
                 if (d > g[a].distance) continue;
-                foreach(var node in connectedAreas(a))
+                foreach(var node in from x in connectedAreas(a) where candidates.Contains(x) select x)
                 {
                     if(g.ContainsKey(node) && g[node].distance > d + 1)
                     {
