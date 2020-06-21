@@ -24,8 +24,9 @@ namespace gaei.navi
             foreach(var a in from x in envmap where x.Value.accessibility == Sensor.ScanResult.somethingFound select x)
             {
                 var r = a.Key.center - here;
-                current +=  C * r.normalized / Vector3.SqrMagnitude(r);
+                current -=  C * r.normalized / Vector3.SqrMagnitude(r);
             }
+            current += (dest - here).normalized;
             return current;
         }
     }
