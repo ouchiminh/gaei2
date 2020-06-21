@@ -26,7 +26,7 @@ namespace gaei.navi
         }
         private void FixedUpdate()
         {
-            if (navi_.remainingWayPoint_ == 0)
+            if (navi_.remainingWayPointCount == 0)
             {
                 fuhrer_.updateDroneState(this);
             }

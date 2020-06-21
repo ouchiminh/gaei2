@@ -16,9 +16,9 @@ namespace gaei.navi {
             globalPathProposer_ = new Pilot();
             localPathProposer_ = new CAM();
         }
-        public int remainingWayPoint_ { get => path_.Count; }
+        public int remainingWayPointCount { get => path_.Count; }
         public Vector3 getNextCourse(in ReadOnlyEnvMap envmap) {
-            if (path_.Count == 0) return new Vector3(0, 0, 0);
+            if (remainingWayPointCount == 0) return new Vector3(0, 0, 0);
             if (path_.First().CompareTo(new Area(gameObject.transform.position)) == 0) path_.RemoveAt(0);
             return localPathProposer_.getCourse(path_.First().center, gameObject.transform.position, envmap);
         }
@@ -27,3 +27,4 @@ namespace gaei.navi {
         }
     }
 }
+

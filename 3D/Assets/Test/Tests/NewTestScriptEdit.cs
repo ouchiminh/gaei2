@@ -74,8 +74,8 @@ namespace Tests
         public void CAM_test1()
         {
             var envmap = new System.Collections.Generic.Dictionary<Area, (Sensor.ScanResult accsessibility, Vector3? velocity)>();
-            Vector3 dest = new Area(1, 2, 0).center;
-            Vector3 here = new Area(1, 3, 0).center;
+            Vector3 dest = new Area(1, 3, 0).center;
+            Vector3 here = new Area(1, 2, 0).center;
             // * * *
             // - - -
             // - h -

@@ -26,7 +26,9 @@ namespace gaei.navi
                 var r = a.Key.center - here;
                 current -=  C * r.normalized / Vector3.SqrMagnitude(r);
             }
-            current += (dest - here).normalized;
+            var goal = dest - here;
+            var normalgoal = goal.normalized;
+            current += normalgoal + C*normalgoal/goal.sqrMagnitude;
             return current;
         }
     }
