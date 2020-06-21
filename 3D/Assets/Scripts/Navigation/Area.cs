@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -60,5 +61,7 @@ namespace gaei.navi
                 Math.Abs(a.representativePoint.y - b.representativePoint.y) +
                 Math.Abs(a.representativePoint.z - b.representativePoint.z);
         }
+        public static bool operator ==(Area a, Area b) => a.CompareTo(b) == 0;
+        public static bool operator !=(Area a, Area b) => !(a == b);
     }
 }
