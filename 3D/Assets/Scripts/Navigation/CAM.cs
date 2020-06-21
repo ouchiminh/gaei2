@@ -21,7 +21,8 @@ namespace gaei.navi
         {
             // TODO:移動障害物と処理を分離して軽量化
             Vector3 current = default(Vector3);
-            foreach(var a in from x in envmap where x.Value.accessibility == Sensor.ScanResult.somethingFound select x)
+            Area herearea = new Area(here);
+            foreach(var a in from x in envmap where herearea != x.Key && x.Value.accessibility == Sensor.ScanResult.somethingFound select x)
             {
                 var r = a.Key.center - here;
                 current -=  C * r.normalized / Vector3.SqrMagnitude(r);

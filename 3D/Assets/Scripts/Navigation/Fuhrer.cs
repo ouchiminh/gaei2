@@ -9,12 +9,11 @@ namespace gaei.navi
     public class Fuhrer
     {
         public void addDemandPoint(Area area) {
-            demandPoints_.Add(area);
+            demandPoints_.AddLast(area);
             assignDrone();
         }
         public void addSupplyPoint(Area area) {
             supplyPoints_.Add(area);
-            assignDrone();
         }
         public void updateDroneState(DroneCtrl drone)
         {
@@ -31,7 +30,7 @@ namespace gaei.navi
         }
 
         private List<DroneCtrl> drones_ = new List<DroneCtrl>();
-        private List<Area> demandPoints_ = new List<Area>();
+        private LinkedList<Area> demandPoints_ = new LinkedList<Area>();
         private List<Area> supplyPoints_ = new List<Area>();
     }
 }
