@@ -17,7 +17,7 @@ namespace gaei.navi
         {
             idle, delivery, homing
         }
-        public Status status { get => (Status)(status_ %= 3); set { status_ = (uint)value; } }
+        public Status status { get => (Status)(status_ %= 3); private set { status_ = (uint)value; } }
         public uint status_;
         public Vector3 velocity { get; private set; }
         Navigator navi_;
@@ -30,16 +30,18 @@ namespace gaei.navi
         }
         private void FixedUpdate()
         {
-            var velbuf = navi_.getNextCourse(Sensor.envmap);
-            velocity = velbuf.sqrMagnitude < sqrMaxSpeed ? velbuf : velbuf.normalized * maxSpeed;
-
             if (navi_.remainingWayPointCount == 0)
             {
+                status = status == Status.delivery ? Status.homing : Status.idle;
                 fuhrer_.updateDroneState(this);
+                return;
             }
+            var velbuf = navi_.getNextCourse(Sensor.envmap);
+            velocity = velbuf.sqrMagnitude < sqrMaxSpeed ? velbuf : velbuf.normalized * maxSpeed;
         }
         public void setDestination(Area dest)
         {
+            status_ = (status_+1)%3;
             navi_.setDestination(dest, Sensor.envmap);
         }
     }
