@@ -1,0 +1,15 @@
+{
+    "name": "Navigation",
+    "references": [
+        "GUID:de2f3840861d99f4a934d904c4ec001a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
