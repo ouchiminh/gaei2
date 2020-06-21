@@ -10,20 +10,21 @@ namespace gaei.navi {
     {
         GlobalPathProposer globalPathProposer_;
         LocalPathProposer localPathProposer_;
-        List<Area> path_;
+        LinkedList<Area> path_;
         void Start()
         {
             globalPathProposer_ = new Pilot();
             localPathProposer_ = new CAM();
+            path_ = new LinkedList<Area>();
         }
         public int remainingWayPointCount { get => path_.Count; }
         public Vector3 getNextCourse(in ReadOnlyEnvMap envmap) {
             if (remainingWayPointCount == 0) return new Vector3(0, 0, 0);
-            if (path_.First().CompareTo(new Area(gameObject.transform.position)) == 0) path_.RemoveAt(0);
+            if (path_.First().CompareTo(new Area(gameObject.transform.position)) == 0) path_.RemoveFirst();
             return localPathProposer_.getCourse(path_.First().center, gameObject.transform.position, envmap);
         }
         public void setDestination(Area dest, in ReadOnlyEnvMap envmap) {
-            path_ = globalPathProposer_.getPath(dest.center, gameObject.transform.position, envmap).ToList();
+            path_ = new LinkedList<Area>(globalPathProposer_.getPath(dest.center, gameObject.transform.position, envmap));
         }
     }
 }
