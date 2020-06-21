@@ -38,6 +38,10 @@ namespace gaei.navi
                 fuhrer_.updateDroneState(this);
             }
         }
+        public void setDestination(Area dest)
+        {
+            navi_.setDestination(dest, Sensor.envmap);
+        }
     }
 }
 
