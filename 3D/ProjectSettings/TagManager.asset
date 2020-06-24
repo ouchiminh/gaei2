@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Obstacle
   - ground
+  - MiniMapCamera
   layers:
   - Default
   - TransparentFX
@@ -54,4 +55,7 @@ TagManager:
     locked: 0
   - name: drone
     uniqueID: 1144863149
+    locked: 0
+  - name: MiniMapCamera
+    uniqueID: 294331041
     locked: 0
