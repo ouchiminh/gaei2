@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 
 namespace gaei.navi
 {
-    public class Fuhrer : Object
+    public class Fuhrer
     {
         static Fuhrer instance_;
         private readonly GameObject drone_prefab_;
@@ -37,7 +37,7 @@ namespace gaei.navi
             demandPoints_.Remove(area);
         }
         public void createDrone(Vector3? pos = null) {
-            drones_.Add((Instantiate(drone_prefab_, pos ?? supplyPoints_.First().center, default(Quaternion)) as GameObject).GetComponent<DroneCtrl>());
+            drones_.Add((Object.Instantiate(drone_prefab_, pos ?? supplyPoints_.First().center, default(Quaternion)) as GameObject).GetComponent<DroneCtrl>());
         }
 
         private void assignDrone(DroneCtrl drone = null) {

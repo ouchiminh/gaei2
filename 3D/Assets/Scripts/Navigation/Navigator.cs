@@ -19,7 +19,7 @@ namespace gaei.navi {
         }
         public int remainingWayPointCount { get => path_.Count; }
         public Vector3 getNextCourse(in ReadOnlyEnvMap envmap) {
-            if (remainingWayPointCount == 0) return new Vector3(0, 0, 0);
+            if (remainingWayPointCount == 0) return localPathProposer_.getCourse(transform.position, transform.position, envmap);
             if (path_.First().CompareTo(new Area(gameObject.transform.position)) == 0) path_.RemoveFirst();
             return localPathProposer_.getCourse(path_.First().center, gameObject.transform.position, envmap);
         }
