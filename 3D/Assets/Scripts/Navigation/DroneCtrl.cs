@@ -24,6 +24,13 @@ namespace gaei.navi
         Fuhrer fuhrer_;
 
         public void initialize(Fuhrer fuhrer) { fuhrer_ = fuhrer; }
+        private void Start()
+        {
+            navi_ = GetComponent<Navigator>();
+            velocity = default;
+            fuhrer_ = Fuhrer.instance;
+            status_ = (uint)Status.idle;
+        }
         void Update()
         {
             gameObject.transform.Translate(velocity*Time.deltaTime);

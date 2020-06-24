@@ -8,6 +8,11 @@ namespace gaei.navi
 {
     public class Fuhrer
     {
+        static Fuhrer instance_;
+        public static Fuhrer instance { get {
+                return instance_ = instance_ ?? new Fuhrer();
+            }
+        }
         public void addDemandPoint(Area area) {
             demandPoints_.AddLast(area);
             assignDrone();
