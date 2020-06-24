@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using gaei.navi;
 
 public class TerrainInfo : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        var c = gameObject.GetComponent<TerrainCollider>();
-        gaei.navi.Sensor.scanOffset = new Vector3Int((int)c.bounds.min.x,(int)c.bounds.min.y,(int)c.bounds.min.z);
-        gaei.navi.Sensor.scanSize = new Vector3Int((int)c.bounds.size.x,(int)c.bounds.size.y,(int)c.bounds.size.z);
-
+        Bounds world = default;
+        foreach (var b in from x in gameObject.GetComponentsInChildren<MeshRenderer>() select x.bounds) world.Encapsulate(b);
+        Sensor.scanOffset = new Vector3Int((int)System.Math.Floor(world.min.x),(int)System.Math.Floor(world.min.y),(int)System.Math.Floor(world.min.z));
+        Sensor.scanSize = new Vector3Int((int)System.Math.Ceiling(world.size.x), (int)System.Math.Ceiling(world.size.y), (int)System.Math.Ceiling(world.size.x));
     }
 }

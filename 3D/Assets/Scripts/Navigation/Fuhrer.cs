@@ -1,17 +1,26 @@
 ﻿using gaei.navi;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace gaei.navi
 {
-    public class Fuhrer
+    public class Fuhrer : Object
     {
         static Fuhrer instance_;
+        private readonly GameObject drone_prefab_;
         public static Fuhrer instance { get {
                 return instance_ = instance_ ?? new Fuhrer();
             }
+        }
+        public Fuhrer()
+        {
+            drone_prefab_ = Resources.Load("drone 1")as GameObject;
+            drones_ = new List<DroneCtrl>();
+            demandPoints_ = new LinkedList<Area>();
+            supplyPoints_ = new List<Area>();
         }
         public void addDemandPoint(Area area) {
             demandPoints_.AddLast(area);
@@ -27,7 +36,8 @@ namespace gaei.navi
         {
             demandPoints_.Remove(area);
         }
-        public void createDrone() {
+        public void createDrone(Vector3? pos = null) {
+            drones_.Add((Instantiate(drone_prefab_, pos ?? supplyPoints_.First().center, default(Quaternion)) as GameObject).GetComponent<DroneCtrl>());
         }
 
         private void assignDrone(DroneCtrl drone = null) {
