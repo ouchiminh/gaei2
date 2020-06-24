@@ -30,6 +30,8 @@ namespace gaei.navi
             velocity = default;
             fuhrer_ = Fuhrer.instance;
             status_ = (uint)Status.idle;
+            var scale = 1.0f / gameObject.GetComponent<MeshCollider>().bounds.size.magnitude;
+            transform.localScale = new Vector3(scale, scale, scale);
         }
         void Update()
         {
