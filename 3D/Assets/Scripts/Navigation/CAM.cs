@@ -21,16 +21,17 @@ namespace gaei.navi
             // TODO:移動障害物と処理を分離して軽量化
             Vector3 current = default(Vector3);
             Area herearea = new Area(here);
-            foreach(var a in from x in envmap where herearea != x.Key && x.Value.accessibility == Sensor.ScanResult.somethingFound select x)
+            foreach(var a in from x in envmap where herearea != x.Key && x.Value.accessibility == Sensor.ScanResult.somethingFound && Area.distance(x.Key, herearea) < radius select x)
             {
                 var r = a.Key.center - here;
                 current -=  C * r.normalized / Vector3.SqrMagnitude(r);
             }
             var goal = dest - here;
             var normalgoal = goal.normalized;
-            current += normalgoal + C*normalgoal/goal.sqrMagnitude;
+            current += normalgoal + C*normalgoal/(goal.sqrMagnitude == 0 ? 1.0f : goal.sqrMagnitude);
             return current;
         }
+        public const int radius = 10;
     }
 }
 

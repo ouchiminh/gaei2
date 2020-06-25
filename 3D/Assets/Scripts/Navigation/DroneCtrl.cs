@@ -39,7 +39,7 @@ namespace gaei.navi
         }
         private void FixedUpdate()
         {
-            Debug.Log(Sensor.envmap.Count);
+            Sensor.scan(new Area(transform.position - new Vector3(5, 5, 5)).representativePoint, new Vector3Int(CAM.radius, CAM.radius, CAM.radius));
             var velbuf = navi_.getNextCourse(Sensor.envmap);
             velocity = velbuf.sqrMagnitude < sqrMaxSpeed ? velbuf : velbuf.normalized * maxSpeed;
             if (navi_.remainingWayPointCount == 0)
@@ -52,6 +52,7 @@ namespace gaei.navi
         public void setDestination(Area dest)
         {
             status_ = (status_+1)%3;
+            Sensor.scan();
             navi_.setDestination(dest, Sensor.envmap);
         }
     }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace gaei.navi
 {
-    using EnvMap = SortedDictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
+    using EnvMap = Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
     using ReadOnlyEnvMap = IReadOnlyDictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
     public static class Sensor
     {
@@ -22,18 +22,22 @@ namespace gaei.navi
         private static Collider[] buffer_ = new Collider[1];
         public static void scan(Vector3Int? min = null, Vector3Int? size = null)
         {
-            //for (int x = scanOffset.x; x <= scanOffset.x + scanSize.x; ++x)
-            //    for (int y = scanOffset.y; y <= scanOffset.y + scanSize.y; ++y)
-            //        for (int z = scanOffset.z; z <= scanOffset.z + scanSize.z; ++z)
-            //        {
-            //            var area = new Area(new Vector3(x, y, z));
-            //            Vector3 velocity = default;
-            //            var res = looka(area, ref velocity);
-            //            envmap_.Add(area, (res, velocity));
-            //        }
-            scan_impl(min??scanOffset, size??scanSize);
+            var cmin = min ?? scanOffset;
+            var csize = size ?? scanSize;
+            for (int x = cmin.x; x < cmin.x + csize.x; ++x)
+                for (int y = cmin.y; y < cmin.y + csize.y; ++y)
+                    for (int z = cmin.z; z < cmin.z + csize.z; ++z)
+                    {
+                        var area = new Area(new Vector3(x, y, z));
+                        Vector3 velocity = default;
+                        var res = looka(area, ref velocity);
+                        if (envmap_.ContainsKey(area))
+                            envmap_[area] = (res, velocity);
+                        else envmap_.Add(area, (res, velocity));
+                    }
+            //scan_impl(min ?? scanOffset, size ?? scanSize);
         }
-        private static async void scan_impl(Vector3Int min, Vector3Int size)
+        private static void scan_impl(Vector3Int min, Vector3Int size)
         {
             // 全ての軸の方向の大きさが1以下ならば終了
             if (size.x == 1 && size.y == 1 && size.z == 1)
@@ -47,15 +51,15 @@ namespace gaei.navi
                 return;
             }
             bool res = Physics.OverlapBoxNonAlloc(
-                new Vector3((min.x + size.x) / 2.0f, (min.y + size.y) / 2.0f, (min.z + size.z) / 2.0f),
+                new Vector3((min.x + size.x) / 2 * 1.0f, (min.y + size.y) / 2.0f, (min.z + size.z) / 2.0f),
                 new Vector3(size.x/2.0f, size.y/2.0f, size.z/2.0f),
                 buffer_
                 ) > 0;
             if (!res)
             {
-                for (int x = min.x; x <= min.x + size.x; ++x)
-                    for (int y = min.y; y <= min.y + size.y; ++y)
-                        for (int z = min.z; z <= min.z + size.z; ++z)
+                for (int x = min.x; x < min.x + size.x; ++x)
+                    for (int y = min.y; y < min.y + size.y; ++y)
+                        for (int z = min.z; z < min.z + size.z; ++z)
                         {
                             var area = new Area(new Vector3(x, y, z));
                             if (envmap_.ContainsKey(area))
@@ -76,16 +80,16 @@ namespace gaei.navi
             {
                 // XYZ
                 // 001
-                if(((i & xmask) > 0 && spx) && ((i & ymask) > 0 && spy) && ((i & zmask) > 0 && spz)) continue;
+                if(((i & xmask) > 0 && !spx) && ((i & ymask) > 0 && !spy) && ((i & zmask) > 0 && !spz)) continue;
                 var next = new Vector3Int(
                     (i & xmask) > 0 ? (min.x + size.x) / 2 : min.x,
                     (i & ymask) > 0 ? (min.y + size.y) / 2 : min.y,
                     (i & zmask) > 0 ? (min.z + size.z) / 2 : min.z
                     );
                 var nextsize = new Vector3Int(
-                    (i & xmask) > 0 ? (1 + size.x) / 2 : size.x / 2,
-                    (i & ymask) > 0 ? (1 + size.y) / 2 : size.y / 2,
-                    (i & zmask) > 0 ? (1 + size.z) / 2 : size.z / 2
+                    (i & xmask) > 0 ? (1 + size.x) / 2 : spx ? size.x / 2 : size.x,
+                    (i & ymask) > 0 ? (1 + size.y) / 2 : spy ? size.y / 2 : size.y,
+                    (i & zmask) > 0 ? (1 + size.z) / 2 : spz ? size.z / 2 : size.z
                     );
                 scan_impl(next, nextsize);
             }
