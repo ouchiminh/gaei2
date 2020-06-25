@@ -30,8 +30,8 @@ namespace gaei.navi
             velocity = default;
             fuhrer_ = Fuhrer.instance;
             status_ = (uint)Status.idle;
-            var scale = 1.0f / gameObject.GetComponent<MeshCollider>().bounds.size.magnitude;
-            transform.localScale = new Vector3(scale, scale, scale);
+            //var scale = 1.0f / gameObject.GetComponent<MeshCollider>().bounds.size.magnitude;
+            //transform.localScale = new Vector3(scale, scale, scale);
         }
         void Update()
         {
@@ -39,14 +39,15 @@ namespace gaei.navi
         }
         private void FixedUpdate()
         {
+            Debug.Log(Sensor.envmap.Count);
+            var velbuf = navi_.getNextCourse(Sensor.envmap);
+            velocity = velbuf.sqrMagnitude < sqrMaxSpeed ? velbuf : velbuf.normalized * maxSpeed;
             if (navi_.remainingWayPointCount == 0)
             {
                 status = status == Status.delivery ? Status.homing : Status.idle;
                 fuhrer_.updateDroneState(this);
                 return;
             }
-            var velbuf = navi_.getNextCourse(Sensor.envmap);
-            velocity = velbuf.sqrMagnitude < sqrMaxSpeed ? velbuf : velbuf.normalized * maxSpeed;
         }
         public void setDestination(Area dest)
         {
