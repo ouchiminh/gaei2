@@ -61,7 +61,7 @@ namespace gaei.navi {
 
         private LinkedList<Area> areaDijkstra(Area here, ReadOnlyEnvMap envmap, Area f, IEnumerable<Area> candidates)
         {
-            Dictionary<Area, (float distance, Area? prev)> g = new Dictionary<Area, (float distance, Area? prev)>();
+            Dictionary<Area, (float distance, Area? prev)> g = new Dictionary<Area, (float distance, Area? prev)>(candidates.Count());
             PriorityQueue<(Area a, float d)> q = new PriorityQueue<(Area a, float d)>((x, y)=>x.d.CompareTo(y.d));
             var s = here;
             foreach (var a in candidates)
@@ -88,7 +88,7 @@ namespace gaei.navi {
             // ゴールから辿る
             var res = new LinkedList<Area>();
             res.AddFirst(f);
-            while (res.First.Value.CompareTo(s) != 0)
+            while (g[res.First.Value].prev != null)
             {
                 res.AddFirst(g[res.First.Value].prev.Value);
             }
