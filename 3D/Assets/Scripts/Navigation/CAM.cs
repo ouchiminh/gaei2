@@ -22,27 +22,28 @@ namespace gaei.navi
             // TODO:移動障害物と処理を分離して軽量化
             Vector3 current = default(Vector3);
             Area herearea = new Area(here);
-            for(var x = 2; x < radius; ++x)
-                for (var y = 2; y < radius; ++y)
-                    for (var z = 2; z < radius; ++z)
+            for(var x = 1; x < radius; ++x)
+                for (var y = 1; y < radius; ++y)
+                    for (var z = 1; z < radius; ++z)
                     {
                         Vector3 dummy = default;
+                        Vector3 relative = new Vector3(x, y, z);
                         {
-                            var exist = Sensor.looka(new Area(x, y, z), ref dummy);
-                            if (exist == Sensor.ScanResult.nothingFound) goto minus;
-                            var r = new Area(x, y, z).center - here;
-                            current -= r.normalized / Vector3.SqrMagnitude(r);
+                            var larea = new Area(here + relative);
+                            if (Sensor.looka(larea, ref dummy) == Sensor.ScanResult.nothingFound) goto minus;
+                            var r = larea.center - here;
+                            current -= C*C*r.normalized / Vector3.SqrMagnitude(r);
                         }
                         minus:
                         {
-                            var exist = Sensor.looka(new Area(-x, -y, -z), ref dummy);
-                            if (exist == Sensor.ScanResult.nothingFound) continue;
-                            var r = new Area(-x, -y, -z).center - here;
-                            current -= r.normalized / Vector3.SqrMagnitude(r);
+                            var larea = new Area(here - relative);
+                            if (Sensor.looka(larea, ref dummy) == Sensor.ScanResult.nothingFound) continue;
+                            var r = larea.center - here;
+                            current -= C*C*r.normalized / Vector3.SqrMagnitude(r);
                         }
                     }
             var goal = dest - here;
-            current += C * goal.normalized;
+            current += goal.normalized / C;
             return current;
         }
         public const int radius = 3;

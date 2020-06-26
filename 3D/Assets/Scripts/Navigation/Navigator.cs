@@ -38,10 +38,10 @@ namespace gaei.navi {
                 localgoal_.SetActive(false);
                 return localPathProposer_.getCourse(transform.position, transform.position, envmap);
             }
+            localgoal_.SetActive(true);
+            localgoal_.transform.position = path_.First.Value.center;
             if (path_.First().CompareTo(new Area(gameObject.transform.position)) == 0) {
-                localgoal_.SetActive(remainingWayPointCount > 2);
                 path_.RemoveFirst(); path_.RemoveFirst();
-                localgoal_.transform.position = path_.First.Value.center;
                 Debug.Log(remainingWayPointCount);
             }
             return localPathProposer_.getCourse(path_.First().center, gameObject.transform.position, envmap);
