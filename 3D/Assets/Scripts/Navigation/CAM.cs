@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Microsoft.Win32.SafeHandles;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,16 +22,30 @@ namespace gaei.navi
             // TODO:移動障害物と処理を分離して軽量化
             Vector3 current = default(Vector3);
             Area herearea = new Area(here);
-            foreach(var a in from x in envmap where Area.distance(x.Key, herearea) > 1 && x.Value == Sensor.ScanResult.somethingFound && Area.distance(x.Key, herearea) < radius select x)
-            {
-                var r = a.Key.center - here;
-                current -=  r.normalized / Vector3.SqrMagnitude(r);
-            }
+            for(var x = 2; x < radius; ++x)
+                for (var y = 2; y < radius; ++y)
+                    for (var z = 2; z < radius; ++z)
+                    {
+                        Vector3 dummy = default;
+                        {
+                            var exist = Sensor.looka(new Area(x, y, z), ref dummy);
+                            if (exist == Sensor.ScanResult.nothingFound) goto minus;
+                            var r = new Area(x, y, z).center - here;
+                            current -= r.normalized / Vector3.SqrMagnitude(r);
+                        }
+                        minus:
+                        {
+                            var exist = Sensor.looka(new Area(-x, -y, -z), ref dummy);
+                            if (exist == Sensor.ScanResult.nothingFound) continue;
+                            var r = new Area(-x, -y, -z).center - here;
+                            current -= r.normalized / Vector3.SqrMagnitude(r);
+                        }
+                    }
             var goal = dest - here;
             current += C * goal.normalized;
             return current;
         }
-        public const int radius = 6;
+        public const int radius = 3;
     }
 }
 

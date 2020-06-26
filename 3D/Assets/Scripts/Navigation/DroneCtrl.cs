@@ -53,7 +53,7 @@ namespace gaei.navi
         {
             if(__i < 20 && ++__i == 10)
                 setDestination(new Area(-66, 1, -20));
-            Sensor.scan(new Area(transform.position - new Vector3(5, 5, 5)).representativePoint, new Vector3Int(CAM.radius, CAM.radius, CAM.radius));
+            //Sensor.scan(new Area(transform.position - new Vector3(CAM.radius,CAM.radius,CAM.radius)/2).representativePoint, new Vector3Int(CAM.radius, CAM.radius, CAM.radius));
             var velbuf = navi_.getNextCourse(Sensor.envmap);
             velocity = velbuf.sqrMagnitude < sqrMaxSpeed ? velbuf : velbuf.normalized * maxSpeed;
             if (navi_.remainingWayPointCount == 0)
