@@ -12,6 +12,6 @@ namespace gaei.navi {
 
     public interface LocalPathProposer
     {
-        Vector3 getCourse(Vector3 dest, Vector3 here, in ReadOnlyEnvMap envmap);
+        Vector3 getCourse(Vector3? dest, Vector3 here, in ReadOnlyEnvMap envmap);
     }
 }

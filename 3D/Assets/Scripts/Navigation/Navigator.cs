@@ -36,7 +36,7 @@ namespace gaei.navi {
             if (remainingWayPointCount == 0)
             {
                 localgoal_.SetActive(false);
-                return localPathProposer_.getCourse(transform.position, transform.position, envmap);
+                return localPathProposer_.getCourse(null, transform.position, envmap);
             }
             localgoal_.SetActive(true);
             localgoal_.transform.position = path_.First.Value.center;

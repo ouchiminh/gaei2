@@ -36,6 +36,7 @@ namespace gaei.navi {
 
             // TODO:パスの任意の2頂点間にrayを飛ばして、そのrayが何にもぶつからなければ間の頂点を消す。
             var path = areaDijkstra(s, envmap, g2, candidate);
+            Debug.Log("done");
             if (path.Count <= 2) return path;
             var first = path.First;
             var last = path.Last;
@@ -54,7 +55,6 @@ namespace gaei.navi {
             //    }
             //    last = last.Previous;
             //}
-            Debug.Log("done");
 
             return path;
         }
@@ -75,9 +75,9 @@ namespace gaei.navi {
             {
                 (var a, var d) = q.Dequeue();
                 if (d > g[a].distance) continue;
-                foreach(var node in from x in connectedAreas(a) where envmap.ContainsKey(x) && envmap[x] == Sensor.ScanResult.nothingFound select x)
+                foreach(var node in from x in connectedAreas(a) where g.ContainsKey(x) && envmap[x] == Sensor.ScanResult.nothingFound select x)
                 {
-                    if(g.ContainsKey(node) && g[node].distance > d + 1)
+                    if(g[node].distance > d + 1)
                     {
                         g[node] = (d + 1, a);
                         q.Enqueue((node, d + 1));
