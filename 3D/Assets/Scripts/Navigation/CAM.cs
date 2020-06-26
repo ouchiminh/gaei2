@@ -8,7 +8,7 @@ namespace gaei.navi
     using ReadOnlyEnvMap = IReadOnlyDictionary<Area, Sensor.ScanResult>;
     public class CAM : LocalPathProposer
     {
-        const float C = 10;
+        const float C = 2;
         /// <summary>
         /// hereからdestまでの経路をポテンシャル法で検索します。
         /// </summary>
@@ -21,13 +21,14 @@ namespace gaei.navi
             // TODO:移動障害物と処理を分離して軽量化
             Vector3 current = default(Vector3);
             Area herearea = new Area(here);
-            foreach(var a in from x in envmap where herearea != x.Key && x.Value == Sensor.ScanResult.somethingFound && Area.distance(x.Key, herearea) < radius select x)
+            foreach(var a in from x in envmap where Area.distance(x.Key, herearea) > 1 && x.Value == Sensor.ScanResult.somethingFound && Area.distance(x.Key, herearea) < radius select x)
             {
                 var r = a.Key.center - here;
-                current -=  C * r.normalized / Vector3.SqrMagnitude(r);
+                current -=  r.normalized / Vector3.SqrMagnitude(r);
             }
             var goal = dest - here;
-            current += C*goal.normalized;
+            current += C * goal.normalized;
+            current += C * goal.normalized / goal.sqrMagnitude;
             return current;
         }
         public const int radius = 10;

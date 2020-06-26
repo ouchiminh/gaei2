@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 216536842}
   m_Layer: 0
   m_Name: Areas:building
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -449,7 +449,7 @@ GameObject:
   - component: {fileID: 1661405243}
   m_Layer: 0
   m_Name: EXPORT_GOOGLE_SAT_WM
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

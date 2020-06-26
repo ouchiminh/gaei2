@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 namespace gaei.navi {
     using ReadOnlyEnvMap = IReadOnlyDictionary<Area, Sensor.ScanResult>;
@@ -10,6 +11,7 @@ namespace gaei.navi {
         GlobalPathProposer globalPathProposer_;
         LocalPathProposer localPathProposer_;
         LinkedList<Area> path_;
+
         GameObject localgoal_;
         System.Threading.Tasks.Task<IEnumerable<gaei.navi.Area>> async_path_;
         Navigator()

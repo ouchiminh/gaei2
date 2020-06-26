@@ -24,6 +24,10 @@ namespace gaei.navi
         Navigator navi_;
         Fuhrer fuhrer_;
 
+        /********debug********/
+        int __i = 0;
+        /*********************/
+
         public void initialize(Fuhrer fuhrer) { fuhrer_ = fuhrer; }
         private void Start()
         {
@@ -31,7 +35,6 @@ namespace gaei.navi
             velocity = default;
             fuhrer_ = Fuhrer.instance;
             status_ = (uint)Status.idle;
-            setDestination(new Area(20, 50, Sensor.scanSize.z));
             Bounds? b = default;
             foreach (var x in gameObject.GetComponentsInChildren<MeshRenderer>())
             {
@@ -48,6 +51,8 @@ namespace gaei.navi
         }
         private void FixedUpdate()
         {
+            if(__i < 20 && ++__i == 10)
+                setDestination(new Area(20, 50, Sensor.scanSize.z));
             Sensor.scan(new Area(transform.position - new Vector3(5, 5, 5)).representativePoint, new Vector3Int(CAM.radius, CAM.radius, CAM.radius));
             var velbuf = navi_.getNextCourse(Sensor.envmap);
             velocity = velbuf.sqrMagnitude < sqrMaxSpeed ? velbuf : velbuf.normalized * maxSpeed;
