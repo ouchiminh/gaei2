@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using PriorityQueue;
+using System.Threading;
 
 namespace gaei.navi {
-    using ReadOnlyEnvMap = IReadOnlyDictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
+    using ReadOnlyEnvMap = IReadOnlyDictionary<Area, Sensor.ScanResult>;
 
     public class Pilot : GlobalPathProposer
     {
         /// <summary>
         /// hereからdestまでの経路をDijkstra法で検索します。
-        /// 経路の頂点はenvmapに含まれる頂点から検索されます。したがって、destがenvmapに含まれていない場合何が起こるか分かりません。
+        /// 経路の頂点はenvmapに含まれる頂点から検索されます。destがenvmapに含まれていない場合、
         /// </summary>
         /// <param name="dest">経路探索の終点</param>
         /// <param name="here">経路探索の始点</param>
@@ -21,25 +22,52 @@ namespace gaei.navi {
         /// <exception cref="System.NullReferenceException">envmapにdestを含む小空間が含まれていない場合</exception>
         public IEnumerable<Area> getPath(Vector3 dest, Vector3 here, in ReadOnlyEnvMap envmap)
         {
-            var candidate = (from x in envmap select x.Key).ToList();
-            double sqrd = double.MaxValue;
-            Area g2 = new Area(dest);
-            if (candidate.Count == 0) throw new System.InvalidOperationException("no goal");
+            var candidate = (from x in envmap where x.Value == Sensor.ScanResult.nothingFound select x.Key).ToList();
+            Area g2 = candidate.First();
+            Area s = candidate.First();
+            Area goal = new Area(dest);
+            Area start = new Area(here);
+            foreach (var x in candidate)
+            {
+                if (Area.distance(x, goal) < Area.distance(goal, g2)) g2 = x;
+                if (Area.distance(x, start) < Area.distance(start, s)) s = x;
+            }
+            if (candidate.Count == 0) throw new System.InvalidOperationException("no path");
 
             // TODO:パスの任意の2頂点間にrayを飛ばして、そのrayが何にもぶつからなければ間の頂点を消す。
-            return areaDijkstra(here, envmap, g2, candidate);
+            var path = areaDijkstra(s, envmap, g2, candidate);
+            if (path.Count <= 2) return path;
+            var first = path.First;
+            var last = path.Last;
 
+            //while (first.Next != path.Last)
+            //{
+            //    var d = last.Value.center - first.Value.center;
+            //    if (!Physics.BoxCast(first.Value.center, new Vector3(.5f, .5f, .5f), d, default, d.magnitude))
+            //    {
+            //        for (var r = first.Next; first.Next != last; r = first.Next)
+            //            path.Remove(r);
+            //        if (path.Count <= 2) return path;
+            //        first = last;
+            //        last = path.Last;
+            //        continue;
+            //    }
+            //    last = last.Previous;
+            //}
+            Debug.Log("done");
+
+            return path;
         }
 
-        private LinkedList<Area> areaDijkstra(Vector3 here, in ReadOnlyEnvMap envmap, Area f, IEnumerable<Area> candidates)
+        private LinkedList<Area> areaDijkstra(Area here, in ReadOnlyEnvMap envmap, Area f, IEnumerable<Area> candidates)
         {
             Dictionary<Area, (float distance, Area? prev)> g = new Dictionary<Area, (float distance, Area? prev)>();
             PriorityQueue<(Area a, float d)> q = new PriorityQueue<(Area a, float d)>((x, y)=>x.d.CompareTo(y.d));
-            var s = new Area(here);
-            foreach (var a in from x in envmap where x.Value.accessibility == Sensor.ScanResult.nothingFound select x)
+            var s = here;
+            foreach (var a in candidates)
             {
-                g.Add(a.Key, (float.MaxValue, null));
-                q.Enqueue((a.Key, float.MaxValue));
+                g.Add(a, (float.MaxValue, null));
+                q.Enqueue((a, float.MaxValue));
             }
             q.Enqueue((s, 0));
             g[s] = (0, null);
@@ -54,6 +82,7 @@ namespace gaei.navi {
                         g[node] = (d + 1, a);
                         q.Enqueue((node, d + 1));
                     }
+                    if (node.CompareTo(f) == 0) break;
                 }
             }
             // ゴールから辿る

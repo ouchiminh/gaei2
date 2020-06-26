@@ -19,7 +19,8 @@ namespace gaei.navi
         }
         public Status status { get => (Status)(status_ %= 3); private set { status_ = (uint)value; } }
         public uint status_;
-        public Vector3 velocity { get; private set; }
+        public Vector3 velocity_;
+        public Vector3 velocity { get=>velocity_; private set=>velocity_=value; }
         Navigator navi_;
         Fuhrer fuhrer_;
 
@@ -30,8 +31,16 @@ namespace gaei.navi
             velocity = default;
             fuhrer_ = Fuhrer.instance;
             status_ = (uint)Status.idle;
-            //var scale = 1.0f / gameObject.GetComponent<MeshCollider>().bounds.size.magnitude;
-            //transform.localScale = new Vector3(scale, scale, scale);
+            setDestination(new Area(20, 50, Sensor.scanSize.z));
+            Bounds? b = default;
+            foreach (var x in gameObject.GetComponentsInChildren<MeshRenderer>())
+            {
+                if (b.HasValue) b.Value.Encapsulate(x.bounds);
+                else b = x.bounds;
+            }
+            var m = 1.0f / b.Value.size.magnitude;
+            //transform.localScale=new Vector3(m, m, m);
+            Debug.Log(m);
         }
         void Update()
         {
@@ -45,7 +54,7 @@ namespace gaei.navi
             if (navi_.remainingWayPointCount == 0)
             {
                 status = status == Status.delivery ? Status.homing : Status.idle;
-                fuhrer_.updateDroneState(this);
+                Fuhrer.instance.updateDroneState(this);
                 return;
             }
         }
@@ -53,7 +62,7 @@ namespace gaei.navi
         {
             status_ = (status_+1)%3;
             Sensor.scan();
-            navi_.setDestination(dest, Sensor.envmap);
+            navi_.setDestination(dest, Sensor.envmapClone);
         }
     }
 }

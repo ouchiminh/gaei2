@@ -10,22 +10,17 @@ public class TerrainInfo : MonoBehaviour
     void Start()
     {
         Bounds world = default;
-        int i = 0;
         foreach (var b in from x in gameObject.GetComponentsInChildren<MeshRenderer>() select x.bounds)
         {
             world.Encapsulate(b);
-            Fuhrer.instance.addDemandPoint(new Area(b.max - new Vector3(1, 1, 1)));
-            Fuhrer.instance.addSupplyPoint(new Area(b.max - new Vector3(1, 1, 1)));
         };
-        Fuhrer.instance.createDrone(new Vector3(20,20,150));
-        Sensor.scanOffset = new Vector3Int((int)System.Math.Floor(world.min.x),(int)System.Math.Floor(world.min.y),(int)System.Math.Floor(world.min.z));
+        var d = Fuhrer.instance.createDrone(world.min + new Vector3(0, 5, 0));
+        Sensor.scanOffset = new Vector3Int((int)System.Math.Floor(world.min.x),(int)System.Math.Floor(world.min.y+2),(int)System.Math.Floor(world.min.z));
         Sensor.scanSize = new Vector3Int(
-            (int)System.Math.Ceiling(world.size.x),
-            (int)System.Math.Ceiling(world.size.y),
-            (int)System.Math.Ceiling(world.size.x));
-    }
-    private async void FixedUpdate()
-    {
-        //Sensor.scan(null, null);
+            (int)System.Math.Ceiling(world.size.x)/2,
+            (int)System.Math.Ceiling(world.size.y)/2,
+            (int)System.Math.Ceiling(world.size.x)/2);
+        Sensor.scanSize.y = 1;
+        //Sensor.scan();
     }
 }

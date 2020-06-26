@@ -8,34 +8,34 @@ using System.Threading.Tasks;
 
 namespace gaei.navi
 {
-    using EnvMap = Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
-    using ReadOnlyEnvMap = IReadOnlyDictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
+    using EnvMap = Dictionary<Area, Sensor.ScanResult>;
+    using ReadOnlyEnvMap = IReadOnlyDictionary<Area, Sensor.ScanResult>;
     public static class Sensor
     {
         public enum ScanResult
         {
             somethingFound, nothingFound, unobservable
         }
-        static Sensor()
-        { envmap_ = new EnvMap(); }
+        static Sensor() { envmap_ = null; }
 
         private static Collider[] buffer_ = new Collider[1];
         public static void scan(Vector3Int? min = null, Vector3Int? size = null)
         {
+            if (envmap_ == null) envmap_ = new EnvMap(scanSize.x * scanSize.y * scanSize.z * 2);
             var cmin = min ?? scanOffset;
             var csize = size ?? scanSize;
-            for (int x = cmin.x; x < cmin.x + csize.x; ++x)
-                for (int y = cmin.y; y < cmin.y + csize.y; ++y)
-                    for (int z = cmin.z; z < cmin.z + csize.z; ++z)
-                    {
-                        var area = new Area(new Vector3(x, y, z));
-                        Vector3 velocity = default;
-                        var res = looka(area, ref velocity);
-                        if (envmap_.ContainsKey(area))
-                            envmap_[area] = (res, velocity);
-                        else envmap_.Add(area, (res, velocity));
-                    }
-            //scan_impl(min ?? scanOffset, size ?? scanSize);
+            //for (int x = cmin.x; x < cmin.x + csize.x; ++x)
+            //    for (int y = cmin.y; y < cmin.y + csize.y; ++y)
+            //        for (int z = cmin.z; z < cmin.z + csize.z; ++z)
+            //        {
+            //            var area = new Area(new Vector3(x, y, z));
+            //            Vector3 velocity = default;
+            //            var res = looka(area, ref velocity);
+            //            if (envmap_.ContainsKey(area))
+            //                envmap_[area] = res;
+            //            else envmap_.Add(area, res);
+            //        }
+            scan_impl(min ?? scanOffset, size ?? scanSize);
         }
         private static void scan_impl(Vector3Int min, Vector3Int size)
         {
@@ -45,13 +45,13 @@ namespace gaei.navi
                 var area = new Area(min);
                 bool result = Physics.OverlapBoxNonAlloc(area.center, new Vector3(.5f, .5f, .5f), buffer_) > 0;
                 if (envmap_.ContainsKey(area))
-                    envmap_[area] = (result ? ScanResult.somethingFound : ScanResult.nothingFound, null);
+                    envmap_[area] = (result ? ScanResult.somethingFound : ScanResult.nothingFound);
                 else
-                    envmap_.Add(area, (result ? ScanResult.somethingFound : ScanResult.nothingFound, null));
+                    envmap_.Add(area, (result ? ScanResult.somethingFound : ScanResult.nothingFound));
                 return;
             }
             bool res = Physics.OverlapBoxNonAlloc(
-                new Vector3((min.x + size.x) / 2 * 1.0f, (min.y + size.y) / 2.0f, (min.z + size.z) / 2.0f),
+                new Vector3((min.x + size.x) / 2.0f, (min.y + size.y) / 2.0f, (min.z + size.z) / 2.0f),
                 new Vector3(size.x/2.0f, size.y/2.0f, size.z/2.0f),
                 buffer_
                 ) > 0;
@@ -63,9 +63,9 @@ namespace gaei.navi
                         {
                             var area = new Area(new Vector3(x, y, z));
                             if (envmap_.ContainsKey(area))
-                                envmap_[area] = (ScanResult.nothingFound, null);
+                                envmap_[area] = (ScanResult.nothingFound);
                             else
-                                envmap_.Add(area, (ScanResult.nothingFound, null));
+                                envmap_.Add(area, (ScanResult.nothingFound));
                         }
                 return;
             }
@@ -78,18 +78,17 @@ namespace gaei.navi
             const int zmask = 1;
             for (int i = 0; i < 8; ++i)
             {
-                // XYZ
-                // 001
-                if(((i & xmask) > 0 && !spx) && ((i & ymask) > 0 && !spy) && ((i & zmask) > 0 && !spz)) continue;
+                if (((i & xmask) > 0 && !spx) || ((i & ymask) > 0 && !spy) || ((i & zmask) > 0 && !spz)) continue;
+                // 軸方向に分割
                 var next = new Vector3Int(
-                    (i & xmask) > 0 ? (min.x + size.x) / 2 : min.x,
-                    (i & ymask) > 0 ? (min.y + size.y) / 2 : min.y,
-                    (i & zmask) > 0 ? (min.z + size.z) / 2 : min.z
+                    (i & xmask) == 0 ? min.x : min.x + (size.x+1) / 2,
+                    (i & ymask) == 0 ? min.y : min.y + (size.y+1) / 2,
+                    (i & zmask) == 0 ? min.z : min.z + (size.z+1) / 2
                     );
                 var nextsize = new Vector3Int(
-                    (i & xmask) > 0 ? (1 + size.x) / 2 : spx ? size.x / 2 : size.x,
-                    (i & ymask) > 0 ? (1 + size.y) / 2 : spy ? size.y / 2 : size.y,
-                    (i & zmask) > 0 ? (1 + size.z) / 2 : spz ? size.z / 2 : size.z
+                    (i & xmask) == 0 ? (1 + size.x) / 2 : size.x / 2,
+                    (i & ymask) == 0 ? (1 + size.y) / 2 : size.y / 2,
+                    (i & zmask) == 0 ? (1 + size.z) / 2 : size.z / 2
                     );
                 scan_impl(next, nextsize);
             }
@@ -123,6 +122,7 @@ namespace gaei.navi
 
         // Sensorが構築する環境マップ
         public static ReadOnlyEnvMap envmap { get => envmap_; }
+        public static ReadOnlyEnvMap envmapClone { get => new EnvMap(envmap_); }
     }
 }
 
