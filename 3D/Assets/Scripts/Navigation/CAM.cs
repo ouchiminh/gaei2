@@ -31,7 +31,7 @@ namespace gaei.navi
             current += C * goal.normalized / goal.sqrMagnitude;
             return current;
         }
-        public const int radius = 10;
+        public const int radius = 5;
     }
 }
 

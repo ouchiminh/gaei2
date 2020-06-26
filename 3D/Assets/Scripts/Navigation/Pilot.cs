@@ -59,7 +59,7 @@ namespace gaei.navi {
             return path;
         }
 
-        private LinkedList<Area> areaDijkstra(Area here, in ReadOnlyEnvMap envmap, Area f, IEnumerable<Area> candidates)
+        private LinkedList<Area> areaDijkstra(Area here, ReadOnlyEnvMap envmap, Area f, IEnumerable<Area> candidates)
         {
             Dictionary<Area, (float distance, Area? prev)> g = new Dictionary<Area, (float distance, Area? prev)>();
             PriorityQueue<(Area a, float d)> q = new PriorityQueue<(Area a, float d)>((x, y)=>x.d.CompareTo(y.d));
@@ -75,7 +75,7 @@ namespace gaei.navi {
             {
                 (var a, var d) = q.Dequeue();
                 if (d > g[a].distance) continue;
-                foreach(var node in from x in connectedAreas(a) where candidates.Contains(x) select x)
+                foreach(var node in from x in connectedAreas(a) where envmap.ContainsKey(x) && envmap[x] == Sensor.ScanResult.nothingFound select x)
                 {
                     if(g.ContainsKey(node) && g[node].distance > d + 1)
                     {

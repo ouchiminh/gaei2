@@ -71,6 +71,38 @@ namespace Tests
             Assert.AreEqual(10,route.Count());
         }
         [Test]
+        public void Pilot_test3()
+        {
+            var envmap = new System.Collections.Generic.Dictionary<Area, Sensor.ScanResult >();
+            Vector3 dest = new Vector3(1, 0, 0);
+            Vector3 here = new Vector3(0, 5, 0);
+            for(int i = 0; i < 5; ++i)
+            {
+                for(int j = 0; j < 6; ++j)
+                {
+                    envmap.Add(new Area(i, j, 0),(Sensor.ScanResult.nothingFound));
+                }
+            }
+            // h * * * *
+            // - - - - -
+            // * - * - -
+            // * - - - -
+            // - - * * -
+            // - d - - -
+            envmap[new Area(1, 5, 0)] = (Sensor.ScanResult.somethingFound);
+            envmap[new Area(2, 5, 0)] = (Sensor.ScanResult.somethingFound);
+            envmap[new Area(3, 5, 0)] = (Sensor.ScanResult.somethingFound);
+            envmap[new Area(4, 5, 0)] = (Sensor.ScanResult.somethingFound);
+            envmap[new Area(0, 3, 0)] = (Sensor.ScanResult.somethingFound);
+            envmap[new Area(2, 3, 0)] = (Sensor.ScanResult.somethingFound);
+            envmap[new Area(0, 2, 0)] = (Sensor.ScanResult.somethingFound);
+            envmap[new Area(2, 1, 0)] = (Sensor.ScanResult.somethingFound);
+            envmap[new Area(3, 1, 0)] = (Sensor.ScanResult.somethingFound);
+            var map=new System.Collections.ObjectModel.ReadOnlyDictionary<Area, Sensor.ScanResult>(envmap);
+            var route = new Pilot().getPath(dest, here, map);
+            Assert.AreEqual(7,route.Count());
+        }
+        [Test]
         public void CAM_test1()
         {
             var envmap = new System.Collections.Generic.Dictionary<Area, Sensor.ScanResult >();

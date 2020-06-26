@@ -24,18 +24,18 @@ namespace gaei.navi
             if (envmap_ == null) envmap_ = new EnvMap(scanSize.x * scanSize.y * scanSize.z * 2);
             var cmin = min ?? scanOffset;
             var csize = size ?? scanSize;
-            //for (int x = cmin.x; x < cmin.x + csize.x; ++x)
-            //    for (int y = cmin.y; y < cmin.y + csize.y; ++y)
-            //        for (int z = cmin.z; z < cmin.z + csize.z; ++z)
-            //        {
-            //            var area = new Area(new Vector3(x, y, z));
-            //            Vector3 velocity = default;
-            //            var res = looka(area, ref velocity);
-            //            if (envmap_.ContainsKey(area))
-            //                envmap_[area] = res;
-            //            else envmap_.Add(area, res);
-            //        }
-            scan_impl(min ?? scanOffset, size ?? scanSize);
+            for (int x = cmin.x; x < cmin.x + csize.x; ++x)
+                for (int y = cmin.y; y < cmin.y + csize.y; ++y)
+                    for (int z = cmin.z; z < cmin.z + csize.z; ++z)
+                    {
+                        var area = new Area(new Vector3(x, y, z));
+                        Vector3 velocity = default;
+                        var res = looka(area, ref velocity);
+                        if (envmap_.ContainsKey(area))
+                            envmap_[area] = res;
+                        else envmap_.Add(area, res);
+                    }
+            //scan_impl(min ?? scanOffset, size ?? scanSize);
         }
         private static void scan_impl(Vector3Int min, Vector3Int size)
         {
