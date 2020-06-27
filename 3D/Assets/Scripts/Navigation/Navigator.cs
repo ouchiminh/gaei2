@@ -41,10 +41,16 @@ namespace gaei.navi {
             localgoal_.SetActive(true);
             localgoal_.transform.position = path_.First.Value.center;
             if (path_.First().CompareTo(new Area(gameObject.transform.position)) == 0) {
-                path_.RemoveFirst(); path_.RemoveFirst();
+                if (path_.Count > 3)
+                {
+                    path_.RemoveFirst(); path_.RemoveFirst();
+                    path_.RemoveFirst();
+                }
+                path_.RemoveFirst();
                 Debug.Log(remainingWayPointCount);
             }
-            return localPathProposer_.getCourse(path_.First().center, gameObject.transform.position, envmap);
+            return localPathProposer_.getCourse(remainingWayPointCount == 0 ? (Vector3?)null : path_.First().center,
+                                                gameObject.transform.position, envmap);
         }
         public async void setDestination(Area dest, ReadOnlyEnvMap envmap) {
             var t = transform.position;

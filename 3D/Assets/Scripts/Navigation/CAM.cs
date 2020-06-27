@@ -43,8 +43,9 @@ namespace gaei.navi
                         }
                     }
             if (dest == null) return current;
-            var goal = dest.Value - here;
-            current += C/2*goal.normalized;
+            var goal = (dest.Value - here).normalized;
+            current += C/2*goal;
+            while (goal.sqrMagnitude > 0 && Vector3.Dot(current.normalized, goal) < 0) current += goal;
             return current;
         }
         public const int radius = 5;
