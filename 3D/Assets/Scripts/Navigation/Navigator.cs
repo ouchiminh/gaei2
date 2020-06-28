@@ -36,7 +36,7 @@ namespace gaei.navi {
             if (remainingWayPointCount == 0)
             {
                 localgoal_.SetActive(false);
-                return localPathProposer_.getCourse(null, transform.position, envmap);
+                return localPathProposer_.getCourse(null, transform.position);
             }
             localgoal_.SetActive(true);
             localgoal_.transform.position = path_.First.Value.center;
@@ -50,7 +50,7 @@ namespace gaei.navi {
                 Debug.Log(remainingWayPointCount);
             }
             return localPathProposer_.getCourse(remainingWayPointCount == 0 ? (Vector3?)null : path_.First().center,
-                                                gameObject.transform.position, envmap);
+                                                gameObject.transform.position);
         }
         public async void setDestination(Area dest, ReadOnlyEnvMap envmap) {
             var t = transform.position;

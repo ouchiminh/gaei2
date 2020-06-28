@@ -16,9 +16,8 @@ namespace gaei.navi
         /// </summary>
         /// <param name="dest">経路探索の終点</param>
         /// <param name="here">経路探索の始点</param>
-        /// <param name="envmap">環境マップ</param>
         /// <returns>動くべき方向</returns>
-        public Vector3 getCourse(Vector3? dest, Vector3 here, in ReadOnlyEnvMap envmap)
+        public Vector3 getCourse(Vector3? dest, Vector3 here)
         {
             const float _2pi = 2*(float)System.Math.PI;
             // TODO:移動障害物と処理を分離して軽量化
