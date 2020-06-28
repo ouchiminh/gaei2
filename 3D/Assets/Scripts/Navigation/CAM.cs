@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace gaei.navi
@@ -9,7 +10,7 @@ namespace gaei.navi
     using ReadOnlyEnvMap = IReadOnlyDictionary<Area, Sensor.ScanResult>;
     public class CAM : LocalPathProposer
     {
-        const float C = 3;
+        const float C = div*div/2;
         /// <summary>
         /// hereからdestまでの経路をポテンシャル法で検索します。
         /// </summary>
@@ -19,36 +20,25 @@ namespace gaei.navi
         /// <returns>動くべき方向</returns>
         public Vector3 getCourse(Vector3? dest, Vector3 here, in ReadOnlyEnvMap envmap)
         {
+            const float _2pi = 2*(float)System.Math.PI;
             // TODO:移動障害物と処理を分離して軽量化
             Vector3 current = default(Vector3);
             Area herearea = new Area(here);
-            for(var x = 1; x < radius; ++x)
-                for (var y = 1; y < radius; ++y)
-                    for (var z = 1; z < radius; ++z)
-                    {
-                        Vector3 dummy = default;
-                        Vector3Int relative = new Vector3Int(x, y, z);
-                        {
-                            var larea = new Area(herearea.representativePoint + relative);
-                            if (Sensor.looka(larea, ref dummy) == Sensor.ScanResult.nothingFound) goto minus;
-                            var r = larea.center - here;
-                            current -= r.normalized / Vector3.SqrMagnitude(r);
-                        }
-                        minus:
-                        {
-                            var larea = new Area(herearea.representativePoint - relative);
-                            if (Sensor.looka(larea, ref dummy) == Sensor.ScanResult.nothingFound) continue;
-                            var r = larea.center - here;
-                            current -= r.normalized / Vector3.SqrMagnitude(r);
-                        }
-                    }
+            for (var x = 0; x < div; ++x)
+                for (var y = 0; y < div; ++y)
+                {
+                    var d = new Vector3((float)System.Math.Sin(x * _2pi / div), (float)System.Math.Cos(y * _2pi / div), (float)System.Math.Cos(x * _2pi / div)).normalized;
+                    var res = Sensor.lookd(d * radius, here);
+                    if (res == null) continue;
+                    current -= d / res.Value;
+                }
             if (dest == null) return current;
-            var goal = (dest.Value - here).normalized;
-            current += C/2*goal;
-            while (goal.sqrMagnitude > 0 && Vector3.Dot(current.normalized, goal) < 0) current += goal;
+            var goal = C*(dest.Value - here).normalized;
+            current += goal;
             return current;
         }
-        public const int radius = 5;
+        public const int radius = 3;
+        private const int div = 12;
     }
 }
 

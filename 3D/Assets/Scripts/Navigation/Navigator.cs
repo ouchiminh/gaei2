@@ -40,7 +40,7 @@ namespace gaei.navi {
             }
             localgoal_.SetActive(true);
             localgoal_.transform.position = path_.First.Value.center;
-            if (path_.First().CompareTo(new Area(gameObject.transform.position)) == 0) {
+            if (Area.distance(path_.First(), new Area(gameObject.transform.position)) <= 1) {
                 if (path_.Count > 3)
                 {
                     path_.RemoveFirst(); path_.RemoveFirst();

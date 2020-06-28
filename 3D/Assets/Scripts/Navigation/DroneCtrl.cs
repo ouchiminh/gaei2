@@ -11,7 +11,7 @@ namespace gaei.navi
     public class DroneCtrl : MonoBehaviour
     {
         // 最大の速さ (area/seconds)
-        const float maxSpeed = 1;
+        const float maxSpeed = 3;
         const float sqrMaxSpeed = maxSpeed * maxSpeed;
         public enum Status
         {

@@ -5,6 +5,7 @@ using UnityEngine;
 using gaei.navi;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace gaei.navi
 {
@@ -29,8 +30,7 @@ namespace gaei.navi
                     for (int z = cmin.z; z < cmin.z + csize.z; ++z)
                     {
                         var area = new Area(new Vector3(x, y, z));
-                        Vector3 velocity = default;
-                        var res = looka(area, ref velocity);
+                        var res = looka(area);
                         if (envmap_.ContainsKey(area))
                             envmap_[area] = res;
                         else envmap_.Add(area, res);
@@ -103,18 +103,23 @@ namespace gaei.navi
         /// 指定された方向をスキャンし、障害物の有無を確かめる。
         /// </summary>
         /// <param name="direction">方向</param>
-        /// <param name="position">障害物があればその位置。なければ値は保証されない。</param>
-        /// <param name="velocity">障害物があればその移動ベクトル。なければ値は保証されない。</param>
+        /// <param name="from">directionの起点</param>
+        /// <returns>障害物を見つけた場合は距離、そうでない場合はnull</returns>
         /// <remarks>スキャンする最大の距離はdirectionの長さです。</remarks>
-        public static ScanResult lookd(Vector3 direction, ref Area position, ref Vector3 velocity) { throw new NotImplementedException(); }
+        public static float? lookd(Vector3 direction, Vector3 from) {
+            var hits = new RaycastHit[4];
+            var res = Physics.RaycastNonAlloc(from, direction.normalized, hits, direction.magnitude);
+            Debug.DrawRay(from, direction);
+            if (res == 0) return null;
+            return hits.Take(res).Min(x => x.distance);
+        }
 
         // TODO:障害物速度ベクトルへの対応
         /// <summary>
         /// 指定された小空間をスキャンし、障害物の有無を確かめる。
         /// </summary>
         /// <param name="area">見たい小空間</param>
-        /// <param name="velocity">障害物が存在していればその移動ベクトル。なければ値は保証されない。</param>
-        public static ScanResult looka(Area area, ref Vector3 velocity)
+        public static ScanResult looka(Area area)
         {
             bool accessible = Physics.OverlapBoxNonAlloc(area.center, new Vector3(.5f, .5f, .5f), buffer_) > 0;
             return accessible ? ScanResult.somethingFound : ScanResult.nothingFound;
