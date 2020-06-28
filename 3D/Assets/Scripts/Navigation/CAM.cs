@@ -27,7 +27,7 @@ namespace gaei.navi
                 for (var y = 0; y < div; ++y)
                 {
                     var d = new Vector3((float)System.Math.Sin(x * _2pi / div), (float)System.Math.Cos(y * _2pi / div), (float)System.Math.Cos(x * _2pi / div)).normalized;
-                    var res = Sensor.lookd(d * radius, here);
+                    var res = Sensor.lookd(d * radius, here+d/2);
                     if (res == null) continue;
                     current -= d / res.Value;
                 }

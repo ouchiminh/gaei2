@@ -14,7 +14,7 @@ public class TerrainInfo : MonoBehaviour
         {
             world.Encapsulate(b);
         };
-        var d = Fuhrer.instance.createDrone(world.min + new Vector3(10, 10, 10));
+        var d = Fuhrer.instance.createDrone(world.min + new Vector3(10, 5, 10));
         Sensor.scanOffset = new Vector3Int((int)System.Math.Floor(world.min.x),(int)System.Math.Floor(world.min.y+2),(int)System.Math.Floor(world.min.z));
         Sensor.scanSize = new Vector3Int(
             (int)System.Math.Ceiling(world.size.x),
