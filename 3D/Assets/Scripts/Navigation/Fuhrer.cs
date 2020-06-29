@@ -7,20 +7,20 @@ using UnityEngine.Assertions;
 
 namespace gaei.navi
 {
-    public class Fuhrer
+    public class Fuhrer : MonoBehaviour
     {
-        static Fuhrer instance_;
-        private readonly GameObject drone_prefab_;
-        public static Fuhrer instance { get {
-                return instance_ = instance_ ?? new Fuhrer();
-            }
-        }
+        private GameObject drone_prefab_;
+        public static Fuhrer instance { get; private set; }
         public Fuhrer()
         {
-            drone_prefab_ = Resources.Load("drone 1")as GameObject;
             drones_ = new List<DroneCtrl>();
             demandPoints_ = new LinkedList<Area>();
             supplyPoints_ = new List<Area>();
+            instance = this;
+        }
+        private void Start()
+        {
+            drone_prefab_ = Resources.Load("drone 1")as GameObject;
         }
         public void addDemandPoint(Area area) {
             demandPoints_.AddLast(area);

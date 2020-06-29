@@ -31,8 +31,6 @@ public class CameraCtrl : MonoBehaviour
     void freeCamera()
     {
         var posdiff = default(Vector3);
-        var eulerangle = transform.rotation.eulerAngles;
-        var sight = new Vector3((float)Math.Sin(toRad(eulerangle.x)), (float)Math.Sin(toRad(eulerangle.y)), (float)Math.Sin(toRad(eulerangle.z)));
         var forward = Input.GetAxis("Vertical");
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Jump");
