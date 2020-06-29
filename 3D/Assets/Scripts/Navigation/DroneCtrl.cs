@@ -19,21 +19,13 @@ namespace gaei.navi
         }
         public Status status { get => (Status)(status_ %= 3); private set { status_ = (uint)value; } }
         public uint status_;
-        public Vector3 velocity_;
-        public Vector3 velocity { get=>velocity_; private set=>velocity_=value; }
+        public Vector3 velocity { get; private set; }
         Navigator navi_;
-        Fuhrer fuhrer_;
 
-        /********debug********/
-        int __i = 0;
-        /*********************/
-
-        public void initialize(Fuhrer fuhrer) { fuhrer_ = fuhrer; }
         private void Start()
         {
             navi_ = GetComponent<Navigator>();
             velocity = default;
-            fuhrer_ = Fuhrer.instance;
             status_ = (uint)Status.idle;
             Bounds? b = default;
             foreach (var x in gameObject.GetComponentsInChildren<MeshRenderer>())
@@ -51,8 +43,6 @@ namespace gaei.navi
         }
         private void FixedUpdate()
         {
-            if(__i < 20 && ++__i == 10)
-                setDestination(new Area(20, 1, 1));
             var velbuf = navi_.getNextCourse(Sensor.envmap);
             velocity = velbuf.sqrMagnitude < sqrMaxSpeed ? velbuf : velbuf.normalized * maxSpeed;
             if (navi_.remainingWayPointCount == 0)

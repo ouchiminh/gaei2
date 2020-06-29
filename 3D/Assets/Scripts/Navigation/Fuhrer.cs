@@ -38,7 +38,6 @@ namespace gaei.navi
         }
         public DroneCtrl createDrone(Vector3? pos = null) {
             drones_.Add((Object.Instantiate(drone_prefab_, pos ?? supplyPoints_.First().center, default(Quaternion)) as GameObject).GetComponent<DroneCtrl>());
-            drones_.Last().initialize(this);
             return drones_.Last();
         }
 
