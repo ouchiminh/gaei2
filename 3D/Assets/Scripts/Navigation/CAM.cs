@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32.SafeHandles;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,10 +24,12 @@ namespace gaei.navi
             // TODO:移動障害物と処理を分離して軽量化
             Vector3 current = default(Vector3);
             Area herearea = new Area(here);
-            for (var x = 0; x < div; ++x)
+            for (var x = 0; x < div; x+=2)
                 for (var y = 0; y < div; ++y)
                 {
-                    var d = new Vector3((float)System.Math.Sin(x * _2pi / div), (float)System.Math.Cos(y * _2pi / div), (float)System.Math.Cos(x * _2pi / div)).normalized;
+                    var theta = x * (float)Math.PI / div;
+                    var phi = y * 2 * (float)Math.PI / div;
+                    var d = new Vector3((float)(Math.Sin(theta) * Math.Cos(phi)), (float)(Math.Sin(theta) * Math.Sin(phi)), (float)Math.Cos(theta)).normalized;
                     var res = Sensor.lookd(d * radius, here+d/2);
                     if (res == null) continue;
                     current -= d / res.Value;
