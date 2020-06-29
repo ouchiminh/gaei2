@@ -45,7 +45,6 @@ namespace gaei.navi {
                 if (i % n != 0) path.Remove(node);
                 node = next;
             }
-            path.AddLast(new Area(dest));
             return path;
         }
 
