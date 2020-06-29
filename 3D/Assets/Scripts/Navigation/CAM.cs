@@ -20,8 +20,6 @@ namespace gaei.navi
         /// <returns>動くべき方向</returns>
         public Vector3 getCourse(Vector3? dest, Vector3 here)
         {
-            const float _2pi = 2*(float)System.Math.PI;
-            // TODO:移動障害物と処理を分離して軽量化
             Vector3 current = default(Vector3);
             Area herearea = new Area(here);
             for (var x = 0; x < div; x+=2)
