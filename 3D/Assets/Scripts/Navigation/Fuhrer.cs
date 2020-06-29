@@ -21,6 +21,7 @@ namespace gaei.navi
         private void Start()
         {
             drone_prefab_ = Resources.Load("drone 1")as GameObject;
+            supplyPoints_.Add(new Area(62, 4, -20));
         }
         public void addDemandPoint(Area area) {
             demandPoints_.AddLast(area);
