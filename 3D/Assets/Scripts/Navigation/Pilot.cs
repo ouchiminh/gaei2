@@ -35,27 +35,17 @@ namespace gaei.navi {
             if (candidate.Count == 0) throw new System.InvalidOperationException("no path");
 
             // TODO:パスの任意の2頂点間にrayを飛ばして、そのrayが何にもぶつからなければ間の頂点を消す。
+            const int n = 3;
             var path = areaDijkstra(s, envmap, g2, candidate);
+            var node = path.First;
             Debug.Log("done");
-            if (path.Count <= 2) return path;
-            var first = path.First;
-            var last = path.Last;
-
-            //while (first.Next != path.Last)
-            //{
-            //    var d = last.Value.center - first.Value.center;
-            //    if (!Physics.BoxCast(first.Value.center, new Vector3(.5f, .5f, .5f), d, default, d.magnitude))
-            //    {
-            //        for (var r = first.Next; first.Next != last; r = first.Next)
-            //            path.Remove(r);
-            //        if (path.Count <= 2) return path;
-            //        first = last;
-            //        last = path.Last;
-            //        continue;
-            //    }
-            //    last = last.Previous;
-            //}
-
+            for (int i = 0; node.Next != null; ++i)
+            {
+                var next = node.Next;
+                if (i % n != 0) path.Remove(node);
+                node = next;
+            }
+            path.AddLast(new Area(dest));
             return path;
         }
 

@@ -45,9 +45,11 @@ namespace gaei.navi
         private void assignDrone(DroneCtrl drone = null) {
             // TODO:droneがnullならば暇なドローンを探して需要点を割り当て
         }
-
+        public IReadOnlyList<DroneCtrl> drones { get => drones_; }
         private List<DroneCtrl> drones_ = new List<DroneCtrl>();
+        private IReadOnlyCollection<Area> demandPoints { get => demandPoints_; }
         private LinkedList<Area> demandPoints_ = new LinkedList<Area>();
+        public IReadOnlyList<Area> supplyPoints { get => supplyPoints_; }
         private List<Area> supplyPoints_ = new List<Area>();
     }
 }

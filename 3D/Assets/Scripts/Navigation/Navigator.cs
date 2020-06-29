@@ -13,6 +13,7 @@ namespace gaei.navi {
         LinkedList<Area> path_;
 
         GameObject localgoal_;
+        GameObject globalgoal_;
         System.Threading.Tasks.Task<IEnumerable<gaei.navi.Area>> async_path_;
         Navigator()
         {
@@ -25,6 +26,8 @@ namespace gaei.navi {
         {
             localgoal_ = UnityEngine.Object.Instantiate((Resources.Load("Marker") as GameObject));
             localgoal_.SetActive(false);
+            globalgoal_ = UnityEngine.Object.Instantiate((Resources.Load("Destination") as GameObject));
+            globalgoal_.SetActive(false);
         }
         public int remainingWayPointCount { get => path_.Count; }
         public Vector3 getNextCourse(in ReadOnlyEnvMap envmap) {
@@ -41,11 +44,6 @@ namespace gaei.navi {
             localgoal_.SetActive(true);
             localgoal_.transform.position = path_.First.Value.center;
             if (Area.distance(path_.First(), new Area(gameObject.transform.position)) <= 1) {
-                if (path_.Count > 3)
-                {
-                    path_.RemoveFirst(); path_.RemoveFirst();
-                    path_.RemoveFirst();
-                }
                 path_.RemoveFirst();
                 Debug.Log(remainingWayPointCount);
             }
@@ -55,9 +53,9 @@ namespace gaei.navi {
         public async void setDestination(Area dest, ReadOnlyEnvMap envmap) {
             var t = transform.position;
             System.Func<System.Threading.Tasks.Task<IEnumerable<gaei.navi.Area>>> f = async () => globalPathProposer_.getPath(dest.center, t, envmap);
-            Debug.Log("async");
             async_path_ = System.Threading.Tasks.Task.Run<IEnumerable<gaei.navi.Area>>(f);
-            Debug.Log("cb");
+            globalgoal_.SetActive(true);
+            globalgoal_.transform.position = dest.center;
         }
     }
 }

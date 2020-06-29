@@ -11,7 +11,7 @@ namespace gaei.navi
     public class DroneCtrl : MonoBehaviour
     {
         // 最大の速さ (area/seconds)
-        const float maxSpeed = 3;
+        const float maxSpeed = 2;
         const float sqrMaxSpeed = maxSpeed * maxSpeed;
         public enum Status
         {
@@ -52,7 +52,7 @@ namespace gaei.navi
         private void FixedUpdate()
         {
             if(__i < 20 && ++__i == 10)
-                setDestination(new Area(-13, 1, 19));
+                setDestination(new Area(20, 1, 1));
             var velbuf = navi_.getNextCourse(Sensor.envmap);
             velocity = velbuf.sqrMagnitude < sqrMaxSpeed ? velbuf : velbuf.normalized * maxSpeed;
             if (navi_.remainingWayPointCount == 0)
