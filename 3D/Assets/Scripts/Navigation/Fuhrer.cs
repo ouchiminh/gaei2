@@ -40,10 +40,10 @@ namespace gaei.navi
             {
                 Area drone_area = new Area(drone.transform.position);
                 int min = Area.distance(drone_area, supplyPoints_[0]);
-                int index = 0;
-                for(int i = 0; i < supplyPoints_.Count; ++i)
+                int index = 0,tmp;
+                for(int i = 1; i < supplyPoints_.Count; ++i)
                 {
-                    int tmp = Area.distance(drone_area, supplyPoints_[i]);
+                    tmp = Area.distance(drone_area, supplyPoints_[i]);
                     if (min > tmp)
                     {
                         min = tmp;
@@ -54,7 +54,8 @@ namespace gaei.navi
             }
             else if (drone.status == DroneCtrl.Status.idle)
             {
-
+                raiseDroneDeactivateFlag();
+                assignDrone(drone);
             }
         }
         public void deactivateDemandPoint(Area area)
@@ -68,6 +69,48 @@ namespace gaei.navi
 
         private void assignDrone(DroneCtrl drone = null) {
             // TODO:droneがnullならば暇なドローンを探して需要点を割り当て
+            int min, tmp, index;
+            bool isfirst=true;
+            Area d_area;
+            if (drone = null)
+            {
+                for(int i = 0; i < drones_.Count; i++)
+                {
+                    if (drones[i].status == DroneCtrl.Status.idle)
+                    {
+                        d_area = new Area(drones_[i].transform.position);
+                        tmp= Area.distance(d_area, demandPoints_.Last());
+                        if(isfirst){
+                            index = i;
+                            min = tmp;
+                            isfirst = false;
+                        }
+                        else if (min > tmp)
+                        {
+                            min = tmp;
+                            index = i;
+                        }
+                    }
+                }
+                drones_[index].setDestination(demandPoints_.Last());
+            }
+            else
+            {
+                Area dest = demandPoints_.First.Value;
+                d_area = new Area(drone.transform.position);
+                min = Area.distance(d_area, dest);
+                IEnumerator<Area> e=demandPoints.GetEnumerator();
+                while (e.MoveNext())
+                {
+                    tmp = Area.distance(d_area,e.Current);
+                    if (min > tmp)
+                    {
+                        min = tmp;
+                        dest = e.Current;
+                    }
+                }
+                drone.setDestination(dest);
+            }
         }
         public void raiseDroneDeactivateFlag()
         {
