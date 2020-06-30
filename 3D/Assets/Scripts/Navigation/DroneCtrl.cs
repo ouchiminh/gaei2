@@ -33,9 +33,6 @@ namespace gaei.navi
                 if (b.HasValue) b.Value.Encapsulate(x.bounds);
                 else b = x.bounds;
             }
-            var m = 1.0f / b.Value.size.magnitude;
-            //transform.localScale=new Vector3(m, m, m);
-            Debug.Log(m);
         }
         void Update()
         {
