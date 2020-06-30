@@ -10,6 +10,7 @@ namespace gaei.navi
     public class Fuhrer : MonoBehaviour
     {
         private GameObject drone_prefab_;
+        private int deactivateFlag;
         public static Fuhrer instance { get; private set; }
         public Fuhrer()
         {
@@ -17,6 +18,7 @@ namespace gaei.navi
             demandPoints_ = new LinkedList<Area>();
             supplyPoints_ = new List<Area>();
             instance = this;
+            deactivateFlag = 0;
         }
         private void Start()
         {
@@ -34,6 +36,26 @@ namespace gaei.navi
         }
         public void updateDroneState(DroneCtrl drone)
         {
+            if (drone.status == DroneCtrl.Status.homing)
+            {
+                Area drone_area = new Area(drone.transform.position);
+                int min = Area.distance(drone_area, supplyPoints_[0]);
+                int index = 0;
+                for(int i = 0; i < supplyPoints_.Count; ++i)
+                {
+                    int tmp = Area.distance(drone_area, supplyPoints_[i]);
+                    if (min > tmp)
+                    {
+                        min = tmp;
+                        index = i;
+                    }
+                }
+                drone.setDestination(supplyPoints_[index]);
+            }
+            else if (drone.status == DroneCtrl.Status.idle)
+            {
+
+            }
         }
         public void deactivateDemandPoint(Area area)
         {
@@ -46,6 +68,23 @@ namespace gaei.navi
 
         private void assignDrone(DroneCtrl drone = null) {
             // TODO:droneがnullならば暇なドローンを探して需要点を割り当て
+        }
+        public void raiseDroneDeactivateFlag()
+        {
+            deactivateFlag++;
+            SearchAndDestroy();
+        }
+        public void SearchAndDestroy()
+        {
+            for(int i=0;i<drones_.Count && deactivateFlag > 0; ++i)
+            {
+                if (drones_[i].status == DroneCtrl.Status.idle)
+                {
+                    UnityEngine.Object.Destroy(drones_[i].gameObject);
+                    drones_.RemoveAt(i--);
+                    --deactivateFlag;
+                }
+            }
         }
         public IReadOnlyList<DroneCtrl> drones { get => drones_; }
         private List<DroneCtrl> drones_ = new List<DroneCtrl>();
