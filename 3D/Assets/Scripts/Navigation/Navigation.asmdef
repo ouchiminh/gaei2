@@ -1,6 +1,7 @@
 {
     "name": "Navigation",
     "references": [
+        "GUID:2d8d74913f1b67a4bbbbbdc8b67c7a74",
         "GUID:de2f3840861d99f4a934d904c4ec001a"
     ],
     "includePlatforms": [],
