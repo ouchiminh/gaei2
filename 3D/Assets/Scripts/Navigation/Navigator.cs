@@ -42,7 +42,6 @@ namespace gaei.navi {
             if (remainingWayPointCount == 0)
             {
                 localgoal_.SetActive(false);
-                globalgoal_.SetActive(false);
                 return localPathProposer_.getCourse(null, transform.position);
             }
             localgoal_.SetActive(true);
@@ -51,6 +50,7 @@ namespace gaei.navi {
             if (Area.distance(path_.First(), new Area(gameObject.transform.position)) <= 1) {
                 path_.RemoveFirst();
                 hasDestination = remainingWayPointCount > 0;
+                globalgoal_.SetActive(hasDestination);
                 Debug.Log(remainingWayPointCount);
             }
             return localPathProposer_.getCourse(remainingWayPointCount == 0 ? (Vector3?)null : path_.First().center,
@@ -62,6 +62,7 @@ namespace gaei.navi {
             System.Func<System.Threading.Tasks.Task<IEnumerable<gaei.navi.Area>>> f = async () => globalPathProposer_.getPath(dest.center, t, envmap);
             async_path_ = System.Threading.Tasks.Task.Run<IEnumerable<gaei.navi.Area>>(f);
             globalgoal_.SetActive(true);
+            dest.representativePoint.y += 1;
             globalgoal_.transform.position = dest.center;
         }
     }
