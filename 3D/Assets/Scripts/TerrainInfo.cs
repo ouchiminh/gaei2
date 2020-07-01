@@ -21,7 +21,4 @@ public class TerrainInfo : MonoBehaviour
             (int)System.Math.Ceiling(world.size.z));
         Sensor.scan();
     }
-    public void OnClick() {
-        Debug.Log("Minimap clicked!");
-    }
 }
