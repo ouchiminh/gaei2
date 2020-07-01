@@ -40,7 +40,7 @@ namespace gaei.navi
             {
                 Area drone_area = new Area(drone.transform.position);
                 var res = supplyPoints_.FindMin(x => Area.distance(x, drone_area)); 
-                drone.setDestination(res.Current);
+                drone.setDestination(res);
             }
             else if (drone.status == DroneCtrl.Status.idle)
             {
@@ -60,22 +60,16 @@ namespace gaei.navi
             // TODO:droneがnullならば暇なドローンを探して需要点を割り当て
             if (drone == null)
             {
-                var res = (from x in drones_ where x.status == DroneCtrl.Status.idle select x).FindMin(x => Area.distance(new Area(x.transform.position), demandPoints.Last()));
-                if (res != null)
-                {
-                    res.Current.setDestination(demandPoints.Last());
-                    demandPoints_.RemoveLast();
-                }
+                var res = (from x in drones_ where x.status == DroneCtrl.Status.idle select x).FindMin(x => { Debug.Log(x.status); return Area.distance(new Area(x.transform.position), demandPoints.Last()); });
+                res.setDestination(demandPoints.Last());
+                demandPoints_.RemoveLast();
             }
             else
             {
                 Area d_area = new Area(drone.transform.position);
                 var res = demandPoints_.FindMin(x => Area.distance(x, d_area));
-                if(res != null)
-                {
-                    drone.setDestination(res.Current);
-                    demandPoints_.Remove(res.Current);
-                }
+                drone.setDestination(res);
+                demandPoints_.Remove(res);
             }
         }
         public void raiseDroneDeactivateFlag()

@@ -20,6 +20,7 @@ namespace gaei.navi
         public Status status { get => (Status)(status_ %= 3); private set { status_ = (uint)value; } }
         public uint status_;
         public Vector3 velocity { get; private set; }
+        private bool isUpToDate_;
         Navigator navi_;
 
         private void Start()
@@ -27,12 +28,7 @@ namespace gaei.navi
             navi_ = GetComponent<Navigator>();
             velocity = default;
             status_ = (uint)Status.idle;
-            Bounds? b = default;
-            foreach (var x in gameObject.GetComponentsInChildren<MeshRenderer>())
-            {
-                if (b.HasValue) b.Value.Encapsulate(x.bounds);
-                else b = x.bounds;
-            }
+            isUpToDate_ = false;
         }
         void Update()
         {
@@ -42,15 +38,17 @@ namespace gaei.navi
         {
             var velbuf = navi_.getNextCourse(Sensor.envmap);
             velocity = velbuf.sqrMagnitude < sqrMaxSpeed ? velbuf : velbuf.normalized * maxSpeed;
-            if (navi_.remainingWayPointCount == 0)
+            if (navi_.remainingWayPointCount == 0 && !isUpToDate_)
             {
-                status = status == Status.delivery ? Status.homing : Status.idle;
+                status = (status == Status.delivery ? Status.homing : Status.idle);
                 Fuhrer.instance.updateDroneState(this);
+                isUpToDate_ = true;
                 return;
             }
         }
         public void setDestination(Area dest)
         {
+            isUpToDate_ = false;
             status_ = (status_+1)%3;
             Sensor.scan();
             navi_.setDestination(dest, Sensor.envmapClone);
