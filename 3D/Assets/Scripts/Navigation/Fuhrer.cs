@@ -60,11 +60,11 @@ namespace gaei.navi
             // TODO:droneがnullならば暇なドローンを探して需要点を割り当て
             if (drone == null)
             {
-                var res = (from x in drones_ where x.status == DroneCtrl.Status.idle select x).FindMin(x => { Debug.Log(x.status); return Area.distance(new Area(x.transform.position), demandPoints.Last()); });
+                var res = (from x in drones_ where x.status == DroneCtrl.Status.idle select x).FindMin(x => Area.distance(new Area(x.transform.position), demandPoints.Last()));
                 res.setDestination(demandPoints.Last());
                 demandPoints_.RemoveLast();
             }
-            else
+            else if(demandPoints.Count > 0)
             {
                 Area d_area = new Area(drone.transform.position);
                 var res = demandPoints_.FindMin(x => Area.distance(x, d_area));

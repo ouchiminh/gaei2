@@ -20,7 +20,7 @@ namespace gaei.navi
         public Status status { get => (Status)(status_ %= 3); private set { status_ = (uint)value; } }
         public uint status_;
         public Vector3 velocity { get; private set; }
-        private bool isUpToDate_;
+        bool isUpToDate_;
         Navigator navi_;
 
         private void Start()
@@ -38,19 +38,20 @@ namespace gaei.navi
         {
             var velbuf = navi_.getNextCourse(Sensor.envmap);
             velocity = velbuf.sqrMagnitude < sqrMaxSpeed ? velbuf : velbuf.normalized * maxSpeed;
-            if (navi_.remainingWayPointCount == 0 && !isUpToDate_)
+            if (!navi_.hasDestination && !isUpToDate_)
             {
-                status = (status == Status.delivery ? Status.homing : Status.idle);
-                Fuhrer.instance.updateDroneState(this);
                 isUpToDate_ = true;
+                status = (status == Status.delivery ? Status.homing : Status.idle);
+                Debug.Log("update " + status.ToString());
+                Fuhrer.instance.updateDroneState(this);
                 return;
             }
         }
         public void setDestination(Area dest)
         {
             isUpToDate_ = false;
-            status_ = (status_+1)%3;
-            Sensor.scan();
+            if (status == Status.idle) status = Status.delivery;
+            Debug.Log("set " + status.ToString());
             navi_.setDestination(dest, Sensor.envmapClone);
         }
     }
