@@ -38,7 +38,7 @@ namespace gaei.navi
             return current;
         }
         public const int radius = 3;
-        private const int div = 12;
+        private const int div = 24;
     }
 }
 

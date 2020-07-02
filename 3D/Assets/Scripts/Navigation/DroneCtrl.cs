@@ -32,7 +32,12 @@ namespace gaei.navi
         }
         void Update()
         {
-            gameObject.transform.Translate(velocity*Time.deltaTime);
+            const float mu = 360 / (2 * (float)Math.PI);
+            var theta = mu * (float)Math.Acos(velocity.z / velocity.magnitude);
+            //var phi = mu * Math.Sign(velocity.y) * (float)Math.Acos(velocity.x / Math.Sqrt(velocity.x * velocity.x + velocity.y * velocity.y));
+            if(velocity.sqrMagnitude != 0)transform.rotation=Quaternion.LookRotation(velocity);
+            gameObject.transform.position += velocity * Time.deltaTime;
+            //transform.Rotate(new Vector3(phi, theta, 0).normalized);
         }
         private void FixedUpdate()
         {
