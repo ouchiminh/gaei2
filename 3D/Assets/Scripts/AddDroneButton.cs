@@ -6,7 +6,7 @@ using gaei.navi;
 public class AddDroneButton : MonoBehaviour
 {   
     public void OnClick(){
-        Debug.Log("clicked");
+        Debug.Log("clicked(add)");
         Fuhrer.instance.createDrone();
     }
 }
