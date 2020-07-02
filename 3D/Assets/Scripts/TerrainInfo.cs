@@ -14,7 +14,7 @@ public class TerrainInfo : MonoBehaviour
         {
             world.Encapsulate(b);
         };
-        Sensor.scanOffset = new Vector3Int((int)System.Math.Floor(world.min.x),(int)System.Math.Floor(world.min.y+2),(int)System.Math.Floor(world.min.z));
+        Sensor.scanOffset = new Vector3Int((int)System.Math.Floor(world.min.x),(int)System.Math.Floor(world.min.y+3),(int)System.Math.Floor(world.min.z));
         Sensor.scanSize = new Vector3Int(
             (int)System.Math.Ceiling(world.size.x),
             1,

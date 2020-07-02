@@ -121,7 +121,7 @@ namespace gaei.navi
         /// <param name="area">見たい小空間</param>
         public static ScanResult looka(Area area)
         {
-            bool accessible = Physics.OverlapBoxNonAlloc(area.center, new Vector3(.5f, .5f, .5f), buffer_) > 0;
+            bool accessible = Physics.OverlapBoxNonAlloc(area.center, new Vector3(.5f, .5f, .5f), buffer_, default, LayerMask.GetMask("Earth")) > 0;
             return accessible ? ScanResult.somethingFound : ScanResult.nothingFound;
         }
 

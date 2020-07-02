@@ -11,7 +11,7 @@ namespace gaei.navi
     using ReadOnlyEnvMap = IReadOnlyDictionary<Area, Sensor.ScanResult>;
     public class CAM : LocalPathProposer
     {
-        const float C = div*div/2;
+        const float C = div * 2;
         /// <summary>
         /// hereからdestまでの経路をポテンシャル法で検索します。
         /// </summary>
@@ -30,7 +30,7 @@ namespace gaei.navi
                     var d = new Vector3((float)(Math.Sin(theta) * Math.Cos(phi)), (float)(Math.Sin(theta) * Math.Sin(phi)), (float)Math.Cos(theta)).normalized;
                     var res = Sensor.lookd(d * radius, here+d/2);
                     if (res == null) continue;
-                    current -= d / res.Value;
+                    current -= (res.Value == 0 ? d*100.0f : d / res.Value);
                 }
             if (dest == null) return current;
             var goal = C*(dest.Value - here).normalized;
