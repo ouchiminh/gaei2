@@ -45,6 +45,7 @@ namespace gaei.navi
             else if (drone.status == DroneCtrl.Status.idle)
             {
                 assignDrone(drone);
+                SearchAndDestroy();
             }
         }
         public void deactivateDemandPoint(Area area)
