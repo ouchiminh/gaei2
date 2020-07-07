@@ -1,0 +1,254 @@
+fileFormatVersion: 2
+guid: 5a8d9a74298b2f14aaad1a29f339143d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4383094017440065957
+    second: Obstacle_0
+  - first:
+      213: 258131462611260955
+    second: Obstacle_1
+  - first:
+      213: -1445914790756834599
+    second: Obstacle_2
+  - first:
+      213: -3791044573332885893
+    second: Obstacle_3
+  - first:
+      213: 1405073350160016731
+    second: Obstacle_4
+  - first:
+      213: -2049857793949455239
+    second: Obstacle_5
+  - first:
+      213: 999777667971362982
+    second: Obstacle_6
+  - first:
+      213: 6196139333297913623
+    second: Obstacle_7
+  - first:
+      213: 7410832117478159076
+    second: Obstacle_8
+  - first:
+      213: -8048015906212368860
+    second: Obstacle_9
+  - first:
+      213: -4437030757163960413
+    second: Obstacle_10
+  - first:
+      213: -5969780233101928245
+    second: Obstacle_11
+  - first:
+      213: -5721477241616901188
+    second: Obstacle_12
+  - first:
+      213: 2479297140549929553
+    second: Obstacle_13
+  - first:
+      213: -7696647884602497539
+    second: Obstacle_14
+  - first:
+      213: 9198770465895052130
+    second: Obstacle_15
+  - first:
+      213: -161743068773291721
+    second: Obstacle_16
+  - first:
+      213: 9153632241313552380
+    second: Obstacle_17
+  - first:
+      213: -185621236093032449
+    second: Obstacle_18
+  - first:
+      213: 3856174723376944856
+    second: Obstacle_19
+  - first:
+      213: 1832667249669449011
+    second: Obstacle_20
+  - first:
+      213: -1528703167172206796
+    second: Obstacle_21
+  - first:
+      213: -6383647588731839904
+    second: Obstacle_22
+  - first:
+      213: 7830370338453158108
+    second: Obstacle_23
+  - first:
+      213: -6109130072163870775
+    second: Obstacle_24
+  - first:
+      213: -3259800827744570500
+    second: Obstacle_25
+  - first:
+      213: 5025319667667273109
+    second: Obstacle_26
+  - first:
+      213: 3255312223756162607
+    second: Obstacle_27
+  - first:
+      213: 1840979116087771764
+    second: Obstacle_28
+  - first:
+      213: 1379972024560125024
+    second: Obstacle_29
+  - first:
+      213: 5254650590325423937
+    second: Obstacle_30
+  - first:
+      213: -1329210144757403108
+    second: Obstacle_31
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Obstacle_0
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 65
+        width: 297
+        height: 126
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b565859b63f1c23c0800000000000000
+      internalID: -4383094017440065957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Obstacle_1
+      rect:
+        serializedVersion: 2
+        x: 399
+        y: 71
+        width: 69
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b16db469231159300800000000000000
+      internalID: 258131462611260955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
