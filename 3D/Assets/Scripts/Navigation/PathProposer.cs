@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace gaei.navi {
-    using EnvMap = System.Collections.Generic.Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
-    using ReadOnlyEnvMap = System.Collections.ObjectModel.ReadOnlyDictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
+    using ReadOnlyEnvMap = IReadOnlyDictionary<Area, Sensor.ScanResult>;
     public interface GlobalPathProposer
     {
         IEnumerable<Area> getPath(Vector3 dest, Vector3 here, in ReadOnlyEnvMap envmap);
@@ -13,6 +12,6 @@ namespace gaei.navi {
 
     public interface LocalPathProposer
     {
-        Vector3 getCourse(Vector3 dest, Vector3 here, in ReadOnlyEnvMap envmap);
+        Vector3 getCourse(Vector3? dest, Vector3 here);
     }
 }

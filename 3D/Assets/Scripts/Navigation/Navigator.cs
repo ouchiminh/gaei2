@@ -2,29 +2,66 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 namespace gaei.navi {
-    using EnvMap = System.Collections.Generic.Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
-    using ReadOnlyEnvMap = System.Collections.ObjectModel.ReadOnlyDictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
+    using ReadOnlyEnvMap = IReadOnlyDictionary<Area, Sensor.ScanResult>;
     public class Navigator : MonoBehaviour
     {
         GlobalPathProposer globalPathProposer_;
         LocalPathProposer localPathProposer_;
         LinkedList<Area> path_;
-        void Start()
+
+        GameObject localgoal_;
+        GameObject globalgoal_;
+        System.Threading.Tasks.Task<IEnumerable<gaei.navi.Area>> async_path_;
+
+        public bool hasDestination { get; private set; }
+        Navigator()
         {
             globalPathProposer_ = new Pilot();
             localPathProposer_ = new CAM();
             path_ = new LinkedList<Area>();
+            async_path_ = null;
+            hasDestination = false;
+        }
+        private void Start()
+        {
+            localgoal_ = UnityEngine.Object.Instantiate((Resources.Load("Marker") as GameObject));
+            localgoal_.SetActive(false);
+            globalgoal_ = UnityEngine.Object.Instantiate((Resources.Load("Destination") as GameObject));
+            globalgoal_.SetActive(false);
         }
         public int remainingWayPointCount { get => path_.Count; }
         public Vector3 getNextCourse(in ReadOnlyEnvMap envmap) {
-            if (remainingWayPointCount == 0) return new Vector3(0, 0, 0);
-            if (path_.First().CompareTo(new Area(gameObject.transform.position)) == 0) path_.RemoveFirst();
-            return localPathProposer_.getCourse(path_.First().center, gameObject.transform.position, envmap);
+            if (async_path_ != null && async_path_.IsCompleted)
+            {
+                path_ = new LinkedList<Area>(async_path_.Result);
+                async_path_ = null;
+            }
+            if (remainingWayPointCount == 0)
+            {
+                return localPathProposer_.getCourse(null, transform.position);
+            }
+            localgoal_.transform.position = path_.First.Value.center;
+            if (Area.distance(path_.First(), new Area(gameObject.transform.position)) <= 1) {
+                path_.RemoveFirst();
+                hasDestination = remainingWayPointCount > 0;
+                globalgoal_.SetActive(hasDestination);
+                Debug.Log(remainingWayPointCount);
+            }
+            localgoal_.SetActive(hasDestination);
+            return localPathProposer_.getCourse(remainingWayPointCount == 0 ? (Vector3?)null : path_.First().center,
+                                                gameObject.transform.position);
         }
-        public void setDestination(Area dest, in ReadOnlyEnvMap envmap) {
-            path_ = new LinkedList<Area>(globalPathProposer_.getPath(dest.center, gameObject.transform.position, envmap));
+        public async void setDestination(Area dest, ReadOnlyEnvMap envmap) {
+            var t = transform.position;
+            hasDestination = true;
+            System.Func<System.Threading.Tasks.Task<IEnumerable<gaei.navi.Area>>> f = async () => globalPathProposer_.getPath(dest.center, t, envmap);
+            async_path_ = System.Threading.Tasks.Task.Run<IEnumerable<gaei.navi.Area>>(f);
+            globalgoal_.SetActive(true);
+            dest.representativePoint.y += 1;
+            globalgoal_.transform.position = dest.center;
         }
     }
 }

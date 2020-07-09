@@ -1,37 +1,44 @@
-﻿using System.Collections;
+﻿using Microsoft.Win32.SafeHandles;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace gaei.navi
 {
-    using EnvMap = System.Collections.Generic.Dictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
-    using ReadOnlyEnvMap = System.Collections.ObjectModel.ReadOnlyDictionary<Area, (Sensor.ScanResult accessibility, Vector3? velocity)>;
+    using ReadOnlyEnvMap = IReadOnlyDictionary<Area, Sensor.ScanResult>;
     public class CAM : LocalPathProposer
     {
-        const float C = 100;
+        const float C = div * 2;
         /// <summary>
         /// hereからdestまでの経路をポテンシャル法で検索します。
         /// </summary>
         /// <param name="dest">経路探索の終点</param>
         /// <param name="here">経路探索の始点</param>
-        /// <param name="envmap">環境マップ</param>
         /// <returns>動くべき方向</returns>
-        public Vector3 getCourse(Vector3 dest, Vector3 here, in ReadOnlyEnvMap envmap)
+        public Vector3 getCourse(Vector3? dest, Vector3 here)
         {
-            // TODO:移動障害物と処理を分離して軽量化
             Vector3 current = default(Vector3);
             Area herearea = new Area(here);
-            foreach(var a in from x in envmap where herearea != x.Key && x.Value.accessibility == Sensor.ScanResult.somethingFound select x)
-            {
-                var r = a.Key.center - here;
-                current -=  C * r.normalized / Vector3.SqrMagnitude(r);
-            }
-            var goal = dest - here;
-            var normalgoal = goal.normalized;
-            current += normalgoal + C*normalgoal/goal.sqrMagnitude;
+            for (var x = 0; x < div; x+=2)
+                for (var y = 0; y < div; ++y)
+                {
+                    var theta = x * (float)Math.PI / div;
+                    var phi = y * 2 * (float)Math.PI / div;
+                    var d = new Vector3((float)(Math.Sin(theta) * Math.Cos(phi)), (float)(Math.Sin(theta) * Math.Sin(phi)), (float)Math.Cos(theta)).normalized;
+                    var res = Sensor.lookd(d * radius, here+d/2);
+                    if (res == null) continue;
+                    current -= (res.Value == 0 ? d*100.0f : d / res.Value);
+                }
+            if (dest == null) return current;
+            var goal = C*(dest.Value - here).normalized;
+            current += goal;
             return current;
         }
+        public const int radius = 3;
+        private const int div = 24;
     }
 }
 

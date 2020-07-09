@@ -55,6 +55,10 @@ namespace gaei.navi
                 representativePoint.y.CompareTo(other.representativePoint.y) != 0 ? representativePoint.y.CompareTo(other.representativePoint.y) :
                 representativePoint.z.CompareTo(other.representativePoint.z) != 0 ? representativePoint.z.CompareTo(other.representativePoint.z) : 0;
         }
+        public override int GetHashCode()
+        {
+            return representativePoint.GetHashCode();
+        }
         public static int distance(Area a, Area b)
         {
             return Math.Abs(a.representativePoint.x - b.representativePoint.x) +
