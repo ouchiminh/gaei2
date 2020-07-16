@@ -8,6 +8,9 @@ public class GameMgr : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
+        {
             UnityEngine.Application.Quit();
+            UnityEditor.EditorApplication.isPlaying = false;
+        }
     }
 }
