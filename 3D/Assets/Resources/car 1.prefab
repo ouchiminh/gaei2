@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 454149767205595009}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children:
   - {fileID: 2081064350223183356}
   - {fileID: 6225177103170775630}
@@ -60,7 +60,6 @@ GameObject:
   - component: {fileID: 6225177103170775630}
   - component: {fileID: 7863678407913433198}
   - component: {fileID: 1859105569021905114}
-  - component: {fileID: 4167969944088550394}
   m_Layer: 0
   m_Name: wheel1
   m_TagString: Untagged
@@ -129,18 +128,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4167969944088550394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2348799806460548616}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee53f695f5b0ce74cb8c43cde2eec15d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3958560643504965821
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +139,6 @@ GameObject:
   - component: {fileID: 2940718518659080716}
   - component: {fileID: 5934937519872174311}
   - component: {fileID: 7356815162545300983}
-  - component: {fileID: 8201619624270569887}
   m_Layer: 0
   m_Name: wheel2
   m_TagString: Untagged
@@ -221,18 +207,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &8201619624270569887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3958560643504965821}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee53f695f5b0ce74cb8c43cde2eec15d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6037210758144442951
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +218,6 @@ GameObject:
   - component: {fileID: 1373377875695865013}
   - component: {fileID: 5186613944809704107}
   - component: {fileID: 3589686126108975677}
-  - component: {fileID: 2119178326462543503}
   m_Layer: 0
   m_Name: wheel3
   m_TagString: Untagged
@@ -313,18 +286,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2119178326462543503
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6037210758144442951}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee53f695f5b0ce74cb8c43cde2eec15d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6328972112835128497
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,7 +376,6 @@ GameObject:
   - component: {fileID: 2607898016119230023}
   - component: {fileID: 2431190319072248331}
   - component: {fileID: 8221804620470980344}
-  - component: {fileID: 2510053047813318792}
   m_Layer: 0
   m_Name: wheel4
   m_TagString: Untagged
@@ -484,15 +444,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &2510053047813318792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8383409673249839272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee53f695f5b0ce74cb8c43cde2eec15d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
