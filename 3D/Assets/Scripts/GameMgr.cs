@@ -10,7 +10,6 @@ public class GameMgr : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             UnityEngine.Application.Quit();
-            UnityEditor.EditorApplication.isPlaying = false;
         }
     }
 }
