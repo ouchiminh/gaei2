@@ -64,7 +64,7 @@ namespace gaei.navi {
             {
                 (var a, var d) = q.Dequeue();
                 if (d > g[a].distance) continue;
-                foreach(var node in from x in connectedAreas(a) where g.ContainsKey(x) && envmap[x] == Sensor.ScanResult.nothingFound select x)
+                foreach(var node in from x in connectedAreas(a) where g.ContainsKey(x) select x)
                 {
                     if(g[node].distance > d + 1)
                     {
